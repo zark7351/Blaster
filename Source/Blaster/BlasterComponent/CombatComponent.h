@@ -26,6 +26,8 @@ protected:
 	void ServerSetAiming(bool bIsAming);
 	UFUNCTION()
 	void OnRep_EquippedWeapon();
+	UFUNCTION()
+	void FireButtonPressed(bool bPressed);
 
 private:
 	class ABlasterCharacter* Character;
@@ -39,6 +41,7 @@ private:
 	float BaseWalkSpeed;
 	UPROPERTY(EditAnywhere)
 	float AimWalkSpeed;
+	bool bFireButtonPressed;
 
 public:	
 
