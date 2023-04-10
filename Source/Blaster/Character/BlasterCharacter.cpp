@@ -190,7 +190,6 @@ void ABlasterCharacter::AimButtonReleased()
 
 void ABlasterCharacter::AimOffset(float DeltaTime)
 {
-	GEngine->AddOnScreenDebugMessage(1, 0.f, FColor::Yellow, FString::SanitizeFloat(AO_Yaw));
 	if (Combat && Combat->EquippedWeapon == nullptr) return;
 	FVector Velocity = GetVelocity();
 	Velocity.Z = 0.f;

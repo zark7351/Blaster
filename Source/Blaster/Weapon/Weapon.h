@@ -60,14 +60,19 @@ private:
 	UPROPERTY(ReplicatedUsing= OnRep_WeaponState,VisibleAnywhere, Category = "Weapon Properties")
 	EWeaponState WeaponState;
 
+	UFUNCTION()
+	void OnRep_WeaponState();
+	
 	UPROPERTY(VisibleAnywhere, Category = "Weapon Properties")
 	class UWidgetComponent* PickupWidget;
 
-	UFUNCTION()
-	void OnRep_WeaponState();
+
+	UPROPERTY(EditAnywhere, Category = "Weapon Properties")
+	class UAnimationAsset* FireAnimation;
 
 public:	
 	void SetWeaponState(EWeaponState State);
+	void Fire();
 
 	FORCEINLINE USphereComponent* GetAreaSphere()const { return AreaSphere; }
 	FORCEINLINE USkeletalMeshComponent* GetWeaponMesh()const { return WeaponMesh; }
