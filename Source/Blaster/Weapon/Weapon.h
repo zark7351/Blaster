@@ -28,6 +28,25 @@ public:
 	void ShowPickupWidget(bool bShowWidget);
 
 
+	//Textures fot the weapon crosshairs
+
+	UPROPERTY(EditAnywhere)
+		class UTexture2D* CrosshairsCenter;
+
+	UPROPERTY(EditAnywhere)
+		class UTexture2D* CrosshairsLeft;
+
+	UPROPERTY(EditAnywhere)
+		class UTexture2D* CrosshairsRight;
+
+	UPROPERTY(EditAnywhere)
+		class UTexture2D* CrosshairsTop;
+
+	UPROPERTY(EditAnywhere)
+		class UTexture2D* CrosshairsButtom;
+
+
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -71,6 +90,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class ACasing> CasingClass;
+
 
 public:	
 	void SetWeaponState(EWeaponState State);
