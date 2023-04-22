@@ -91,6 +91,17 @@ private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class ACasing> CasingClass;
 
+	/*
+	*Zoomed FOV While aiming
+	*/
+
+	UPROPERTY(EditAnywhere, Category = "Weapon Properties")
+	float ZoomedFOV=30.f;
+
+	UPROPERTY(EditAnywhere, Category = "Weapon Properties")
+	float ZoomInterpSpeed=20.f;
+
+
 
 public:	
 	void SetWeaponState(EWeaponState State);
@@ -98,5 +109,7 @@ public:
 
 	FORCEINLINE USphereComponent* GetAreaSphere()const { return AreaSphere; }
 	FORCEINLINE USkeletalMeshComponent* GetWeaponMesh()const { return WeaponMesh; }
+	FORCEINLINE float GetZoomedFOV()const { return ZoomedFOV; }
+	FORCEINLINE float GetZoomInterpSpeed()const { return ZoomInterpSpeed; }
 };
 
