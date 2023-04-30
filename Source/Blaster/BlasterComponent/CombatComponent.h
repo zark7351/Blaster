@@ -20,6 +20,8 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void EquipWeapon(class AWeapon* WeaponToEquip);
+	UFUNCTION()
+	void OnRep_EquippedWeapon();
 
 protected:
 	virtual void BeginPlay() override;
@@ -27,9 +29,8 @@ protected:
 	UFUNCTION(Server, Reliable)
 	void ServerSetAiming(bool bIsAming);
 	UFUNCTION()
-	void OnRep_EquippedWeapon();
-	UFUNCTION()
 	void FireButtonPressed(bool bPressed);
+	void Fire();
 	UFUNCTION(Server, Reliable)
 	void ServerFire(const FVector_NetQuantize& TraceHitResult);
 	UFUNCTION(NetMulticast, Reliable)
@@ -78,4 +79,16 @@ private:
 	float ZoomInterpSpeed = 20.f;
 
 	void InterpFOV(float DeltaTime);
+
+	/*
+	* Automatic Fire
+	*/
+
+	FTimerHandle FireTimer;
+
+
+	bool bCanFire=true;
+
+	void StartFireTimer();
+	void FireTimerFinished();
 };
