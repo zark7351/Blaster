@@ -20,8 +20,6 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostInitializeComponents()override;
 	void PlayFireMontage(bool bAiming);
-	UFUNCTION(NetMulticast, Unreliable)
-	void MulticastHit();
 	virtual void OnRep_ReplicatedMovement() override;
 protected:
 	virtual void BeginPlay() override;
@@ -40,6 +38,9 @@ protected:
 	void FireButtonPressed();
 	void PlayHitReactMontage();
 	void FireButtonReleased();
+	UFUNCTION()
+	void ReceiveDamage(AActor* DamageActor, float Damage,const UDamageType* DamageType,class AController* InstigatorController,AActor* DamageCauser);
+	void UpdateHUDHealth();
 
 private:
 	UPROPERTY(VisibleAnywhere,Category=Camera)
@@ -99,6 +100,8 @@ private:
 
 	UFUNCTION()
 	void OnRep_Health();
+
+	class ABlasterPlayerController* BlasterPlayerController;
 
 
 public:	
