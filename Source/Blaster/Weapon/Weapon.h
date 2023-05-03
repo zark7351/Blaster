@@ -45,6 +45,8 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UTexture2D* CrosshairsButtom;
 
+	void Dropped();
+
 
 	/*
 	* Automatic Fire
