@@ -16,6 +16,9 @@
 #include "Blaster/PlayerController/BlasterPlayerController.h"
 #include "Blaster/GameMode/BlasterGameMode.h"
 #include "TimerManager.h"
+#include "Kismet/GamePlayStatics.h"
+#include "Sound/SoundCue.h"
+#include "Particles/ParticleSystemComponent.h"
 
 
 ABlasterCharacter::ABlasterCharacter()
@@ -89,14 +92,23 @@ void ABlasterCharacter::Elim()
 	GetWorldTimerManager().SetTimer(ElimTimer,this,&ABlasterCharacter::ElimTimerFinished,ElimDelay);
 }
 
+void ABlasterCharacter::Destroyed()
+{
+	Super::Destroyed();
+	if (ElimBotComponent)
+	{
+		ElimBotComponent->DestroyComponent();
+	}
+}
+
 void ABlasterCharacter::MulticastElim_Implementation()
 {
 	bElimmed=true;
 	PlayElimMontage();
 
-	/*
-	* Start Dissolve Effect
-	*/
+	
+	//Start dissolve effect
+	
 
 	if (DissolveMaterialInstance)
 	{
@@ -110,9 +122,8 @@ void ABlasterCharacter::MulticastElim_Implementation()
 	}
 	StartDissolve();
 
-	/*
-	* Disable Character Movement
-	*/
+	
+	//Disable character movement
 
 	GetCharacterMovement()->DisableMovement();
 	GetCharacterMovement()->StopMovementImmediately();
@@ -122,12 +133,24 @@ void ABlasterCharacter::MulticastElim_Implementation()
 		DisableInput(BlasterPlayerController);
 	}
 
-	/*
-	* Disable Collision
-	*/
+	
+	//Disable collision
+	
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	// Spawn elim bot
+	
+	if (ElimBotEffect)
+	{
+		FVector ElimBotSpawnPoint(GetActorLocation().X,GetActorLocation().Y,GetActorLocation().Z+200.f);
+		ElimBotComponent = UGameplayStatics::SpawnEmitterAtLocation(GetWorld(),ElimBotEffect,ElimBotSpawnPoint,GetActorRotation());
+	}
+	if (ElimBotSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this,ElimBotSound,GetActorLocation());
+	}
 }
 
 void ABlasterCharacter::ElimTimerFinished()
@@ -136,6 +159,10 @@ void ABlasterCharacter::ElimTimerFinished()
 	if (BlasterGameMode)
 	{
 		BlasterGameMode->RequestRespawn(this, Controller);
+	}
+	if (ElimBotComponent)
+	{
+		ElimBotComponent->DestroyComponent();
 	}
 }
 
