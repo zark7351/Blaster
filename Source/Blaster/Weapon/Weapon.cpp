@@ -137,7 +137,7 @@ void AWeapon::SetHUDAmmo()
 
 void AWeapon::SpendRound()
 {
-	--Ammo;
+	Ammo=FMath::Clamp(Ammo-1,0,MagCapacity);
 	SetHUDAmmo();
 }
 
@@ -219,11 +219,17 @@ void AWeapon::Fire(const FVector& HitTarget)
 	SpendRound();
 }
 
+
 void AWeapon::ShowPickupWidget(bool bShowWidget)
 {
 	if (PickupWidget)
 	{
 		PickupWidget->SetVisibility(bShowWidget);
 	}
+}
+
+bool AWeapon::IsEmpty()
+{
+	return Ammo <= 0;
 }
 
