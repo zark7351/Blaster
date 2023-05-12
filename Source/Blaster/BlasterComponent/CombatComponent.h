@@ -23,6 +23,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void EquipWeapon(class AWeapon* WeaponToEquip);
 	void Reload();
+	int32 AmountToReload();
 	UFUNCTION()
 	void OnRep_EquippedWeapon();
 	UFUNCTION(Server, Reliable)
@@ -125,4 +126,6 @@ private:
 
 	UFUNCTION()
 	void OnRep_CombatState();
+
+	void UpdateAmmoValues();
 };

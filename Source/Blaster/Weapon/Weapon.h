@@ -49,6 +49,7 @@ public:
 		class UTexture2D* CrosshairsButtom;
 
 	void Dropped();
+	void AddAmmo(int32 AmmoToAdd);
 
 
 	/*
@@ -145,5 +146,8 @@ public:
 	FORCEINLINE float GetZoomInterpSpeed()const { return ZoomInterpSpeed; }
 	bool IsEmpty();
 	FORCEINLINE EWeaponType GetWeaponType()const { return WeaponType; }
+	FORCEINLINE int32 GetAmmo() const { return Ammo; }
+	FORCEINLINE int32 GetMagCapacity() const { return MagCapacity; }
+
 };
 
