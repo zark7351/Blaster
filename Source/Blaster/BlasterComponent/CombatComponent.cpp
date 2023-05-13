@@ -12,6 +12,7 @@
 #include "Blaster/PlayerController/BlasterPlayerController.h"
 #include "Camera/CameraComponent.h"
 #include "TimerManager.h"
+#include "Sound/SoundCue.h"
 
 UCombatComponent::UCombatComponent()
 {
@@ -237,15 +238,22 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 	{
 		PlayerController->SetHUDCarriedAmmo(CarriedAmmo);
 	}
+	if (EquippedWeapon->EquippedSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, EquippedWeapon->EquippedSound, Character->GetActorLocation());
+	}
 	Character->GetCharacterMovement()->bOrientRotationToMovement = false;
 	Character->bUseControllerRotationYaw = true;
 }
 
 void UCombatComponent::Reload()
 {
-	if (CarriedAmmo > 0 && CombatState != ECombatState::ECS_Reloading)
+	if (EquippedWeapon && EquippedWeapon->GetAmmo() < EquippedWeapon->GetMagCapacity())
 	{
-		ServerReload();
+		if (CarriedAmmo > 0 && CombatState != ECombatState::ECS_Reloading)
+		{
+			ServerReload();
+		}
 	}
 }
 
@@ -338,6 +346,10 @@ void UCombatComponent::OnRep_EquippedWeapon()
 		}
 		Character->GetCharacterMovement()->bOrientRotationToMovement = false;
 		Character->bUseControllerRotationYaw = true;
+	}
+	if (EquippedWeapon->EquippedSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, EquippedWeapon->EquippedSound, Character->GetActorLocation());
 	}
 }
 

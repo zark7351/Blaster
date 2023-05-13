@@ -61,6 +61,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Combat)
 		float FireDelay = 0.15f;
 
+	UPROPERTY(EditAnywhere)
+	class USoundCue* EquippedSound;
+
 
 
 protected:
