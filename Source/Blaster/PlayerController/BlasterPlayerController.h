@@ -27,6 +27,7 @@ public:
 	virtual void ReceivedPlayer() override; //Synced with server world clock as soon as possible
 
 	void OnMatchStateSet(FName State);
+	void HandleMatchHasStarted();
 
 protected:
 	virtual void BeginPlay() override;
