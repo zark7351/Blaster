@@ -71,7 +71,7 @@ void ABlasterPlayerController::ClientJoinMidGame_Implementation(FName StateOfMat
 	OnMatchStateSet(MatchState);
 	if (BlasterHUD && MatchState == MatchState::WaitingToStart)
 	{
-		BlasterHUD->AddAnnouncement();
+			BlasterHUD->AddAnnouncement();
 	}
 }
 
