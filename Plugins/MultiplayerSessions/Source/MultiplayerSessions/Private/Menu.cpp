@@ -104,6 +104,16 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 
 void UMenu::OnFindSession(const TArray<FOnlineSessionSearchResult>& SessionResults, bool bWasSuccessful)
 {
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			15.f,
+			FColor::Red,
+			FString::Printf(TEXT("%d Success: %d"),SessionResults.Num(), bWasSuccessful)
+		);
+	}
+
 	if (MultiplayerSessionsSubsystem==nullptr)
 	{
 		return;
@@ -126,6 +136,15 @@ void UMenu::OnFindSession(const TArray<FOnlineSessionSearchResult>& SessionResul
 
 void UMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 {
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			20.f,
+			FColor::Yellow,
+			FString::Printf(TEXT("%d"),Result)
+		);
+	}
 	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
 	if (Subsystem)
 	{
@@ -137,6 +156,15 @@ void UMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 			APlayerController* PlayerController = GetGameInstance()->GetFirstLocalPlayerController();
 			if (PlayerController)
 			{
+				if (GEngine)
+				{
+					GEngine->AddOnScreenDebugMessage(
+						-1,
+						20.f,
+						FColor::Purple,
+						FString::Printf(TEXT("%s"), *Adress)
+					);
+				}
 				PlayerController->ClientTravel(Adress, ETravelType::TRAVEL_Absolute);
 			}
 
@@ -144,6 +172,15 @@ void UMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 	}
 	if (Result!=EOnJoinSessionCompleteResult::Success)
 	{
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				15.f,
+				FColor::Orange,
+				FString::Printf(TEXT("NotSuccess"))
+			);
+		}
 		JoinButton->SetIsEnabled(true);
 	}
 }
