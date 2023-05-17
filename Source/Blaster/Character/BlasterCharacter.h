@@ -31,6 +31,9 @@ public:
 	void MulticastElim();
 	virtual void Destroyed() override;
 
+	UPROPERTY(Replicated)
+	bool bDisableGameplay=false;
+
 protected:
 	virtual void BeginPlay() override;
 	void MoveForward(float Value);
@@ -54,6 +57,7 @@ protected:
 	void UpdateHUDHealth();
 	// Poll for any relevant classes and initialize our HUD
 	void PollInit();
+	void RotateInplace(float DeltaTime);
 
 private:
 	UPROPERTY(VisibleAnywhere,Category=Camera)
@@ -185,5 +189,7 @@ public:
 	FORCEINLINE bool IsElimmed() const { return bElimmed; }
 	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 	FORCEINLINE float GetHealth() const { return Health; }
+	FORCEINLINE UCombatComponent* GetCombat() const { return Combat; }
+	FORCEINLINE bool GetDisableGameplay() const { return bDisableGameplay; }
 	ECombatState GetCombatState() const;
 };

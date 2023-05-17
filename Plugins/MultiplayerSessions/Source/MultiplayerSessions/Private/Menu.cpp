@@ -136,15 +136,6 @@ void UMenu::OnFindSession(const TArray<FOnlineSessionSearchResult>& SessionResul
 
 void UMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 {
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(
-			-1,
-			20.f,
-			FColor::Yellow,
-			FString::Printf(TEXT("%d"),Result)
-		);
-	}
 	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
 	if (Subsystem)
 	{
@@ -172,15 +163,6 @@ void UMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 	}
 	if (Result!=EOnJoinSessionCompleteResult::Success)
 	{
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(
-				-1,
-				15.f,
-				FColor::Orange,
-				FString::Printf(TEXT("NotSuccess"))
-			);
-		}
 		JoinButton->SetIsEnabled(true);
 	}
 }

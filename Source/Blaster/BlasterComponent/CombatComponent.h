@@ -33,13 +33,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void FinishReloading();
 
+	UFUNCTION()
+	void FireButtonPressed(bool bPressed);
+
 protected:
 	virtual void BeginPlay() override;
 	void SetAiming(bool bIsAming);
 	UFUNCTION(Server, Reliable)
 	void ServerSetAiming(bool bIsAming);
-	UFUNCTION()
-	void FireButtonPressed(bool bPressed);
+
 	void Fire();
 	UFUNCTION(Server, Reliable)
 	void ServerFire(const FVector_NetQuantize& TraceHitResult);
