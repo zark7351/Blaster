@@ -12,6 +12,8 @@
 #include "Blaster/GameMode/BlasterGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Blaster/BlasterComponent/CombatComponent.h"
+#include "Blaster/GameState/BlasterGameState.h"
+#include "Blaster/PlayerState/BlasterPlayerState.h"
 
 void ABlasterPlayerController::BeginPlay()
 {
@@ -69,7 +71,7 @@ void ABlasterPlayerController::ClientJoinMidGame_Implementation(FName StateOfMat
 	WarmupTime = Warmup;
 	MatchTime = Match;
 	MatchState = StateOfMatch;
-	CooldownTime = CooldownTime;
+	CooldownTime = Cooldown;
 	LevelStartingTime = StartingTime;
 	OnMatchStateSet(MatchState);
 	if (BlasterHUD && MatchState == MatchState::WaitingToStart)
@@ -336,7 +338,36 @@ void ABlasterPlayerController::HandleCooldown()
 				BlasterHUD->Announcement->SetVisibility(ESlateVisibility::Visible);
 				FString AnnouncementText("New Match Starts In:");
 				BlasterHUD->Announcement->AnnouncementText->SetText(FText::FromString(AnnouncementText));
-				BlasterHUD->Announcement->InfoText->SetText(FText());
+
+				ABlasterGameState* BlasterGameState =Cast<ABlasterGameState>(UGameplayStatics::GetGameState(this));
+				ABlasterPlayerState* BlasterPlayerState = GetPlayerState<ABlasterPlayerState>();
+				if (BlasterGameState && BlasterPlayerState)
+				{
+					TArray<ABlasterPlayerState*>TopPlayers = BlasterGameState->TopScoringPlayers;
+					FString InfoTextString;
+					if (TopPlayers.Num()==0)
+					{
+						InfoTextString = FString("There is no winner.");
+					}
+					
+					else if (TopPlayers.Num()==1 && TopPlayers[0]==BlasterPlayerState)
+					{
+						InfoTextString = FString("You are the winner!");
+					}
+					else  if (TopPlayers.Num() == 1)
+					{
+						InfoTextString = FString::Printf(TEXT("Winner: \n%s"), *TopPlayers[0]->GetPlayerName());
+					}
+					else if (TopPlayers.Num()>1)
+					{
+						InfoTextString = FString("Players tied for the win:\n");
+						for (auto TiedPlayer : TopPlayers)
+						{
+							InfoTextString.Append(FString::Printf(TEXT("%s\n"), *TiedPlayer->GetPlayerName()));
+						}
+					}
+					BlasterHUD->Announcement->InfoText->SetText(FText::FromString(InfoTextString));
+				}
 			}
 		}
 		ABlasterCharacter* BlasterCharacter = Cast<ABlasterCharacter>(GetPawn());

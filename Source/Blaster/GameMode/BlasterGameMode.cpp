@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
 #include "Blaster/PlayerState/BlasterPlayerState.h"
+#include "Blaster/GameState/BlasterGameState.h"
 
 namespace MatchState
 {
@@ -73,13 +74,16 @@ void ABlasterGameMode::PlayerEliminated(ABlasterCharacter* EliminatedPlayer, ABl
 {
 	ABlasterPlayerState* AttackersPlayerState = AttackerController ? Cast<ABlasterPlayerState>(AttackerController->PlayerState):nullptr;
 	ABlasterPlayerState* VictimsPlayerState = VictimController ? Cast<ABlasterPlayerState>(VictimController->PlayerState) : nullptr;
-	if (AttackersPlayerState && AttackersPlayerState != VictimsPlayerState)
+	ABlasterGameState* BlasterGamestate = GetGameState<ABlasterGameState>();
+	if (AttackersPlayerState && AttackersPlayerState != VictimsPlayerState && BlasterGamestate)
 	{
 		AttackersPlayerState->AddToScore(1.f);
+		BlasterGamestate->UpdateTopScore(AttackersPlayerState);
 	}
 	if (VictimsPlayerState)
 	{
 		VictimsPlayerState->AddToDefeats(1);
+		
 	}
 	if (EliminatedPlayer)
 	{
