@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Sound/SoundCue.h"
+#include "WeaponTypes.h"
 
 void AHitScanWeapon::Fire(const FVector& HitTarget)
 {

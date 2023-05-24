@@ -8,9 +8,11 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Sound/SoundCue.h"
 #include "DrawDebugHelpers.h"
+#include "Kismet/KismetMathLibrary.h"
 
 void AShotgun::Fire(const FVector& HitTarget)
 {
+	AWeapon::Fire(HitTarget);
 	APawn* OwnerPawn = Cast<APawn>(GetOwner());
 	if (OwnerPawn == nullptr) return;
 	AController* InstigatorController = OwnerPawn->GetController();
@@ -20,7 +22,11 @@ void AShotgun::Fire(const FVector& HitTarget)
 	{
 		FTransform SocketTransform = MuzzleFlashSocket->GetSocketTransform(GetWeaponMesh());
 		FVector Start = SocketTransform.GetLocation();
-		FVector End = TranceEndWithScatter(Start, HitTarget);
+		for (uint32 i=0;i<NumberOfPellets;++i)
+		{
+			FVector End = TranceEndWithScatter(Start, HitTarget);
+		}
+
 
 	}
 }
@@ -32,6 +38,12 @@ FVector AShotgun::TranceEndWithScatter(const FVector& TraceStart, const FVector&
 	FVector SphereCenter = TraceStart + ToTargetNormalized * DistanceToSphere;
 
 	DrawDebugSphere(GetWorld(), SphereCenter, SphereRadius, 12, FColor::Red, true);
+	FVector RandVec = UKismetMathLibrary::RandomUnitVector() * FMath::RandRange(0.f, SphereRadius);
+	FVector EndLoc = SphereCenter + RandVec;
+	FVector ToEndLoc = EndLoc - TraceStart;
+	DrawDebugSphere(GetWorld(), EndLoc, 4.f, 12, FColor::Orange, true);
+	DrawDebugLine(GetWorld(), TraceStart, EndLoc, FColor::Cyan, true);
 
-	return FVector::ZeroVector;
+
+		return FVector(TraceStart + ToEndLoc * TRACE_LENGTH / ToEndLoc.Size());
 }
