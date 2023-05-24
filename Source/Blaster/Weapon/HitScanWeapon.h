@@ -37,4 +37,19 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	USoundCue* HitSound;
+
+protected:
+
+	/*
+	* Trace end for scatter
+	*/
+
+	UPROPERTY(EditAnywhere,Category = "Weapon Scatter")
+	float DistanceToSphere = 800.f;
+
+	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+	float SphereRadius = 75.f;
+
+	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+	bool bUseScatter = false;
 };
