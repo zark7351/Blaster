@@ -18,10 +18,6 @@ public:
 
 	virtual void Fire(const FVector& HitTarget) override;
 
-protected:
-
-	FVector TranceEndWithScatter(const FVector& TraceStart, const FVector& HitTarget);
-
 private:
 
 	UPROPERTY(EditAnywhere,Category="WeaponScatter")
