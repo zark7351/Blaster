@@ -21,15 +21,18 @@ public:
 protected:
 	
 	FVector TranceEndWithScatter(const FVector& TraceStart, const FVector& HitTarget);
-	void WeaponTranceHit(const FVector& TraceStart,const FVector& HitTarget);
+	void WeaponTranceHit(const FVector& TraceStart,const FVector& HitTarget,FHitResult& OutHit);
+
+	UPROPERTY(EditAnywhere)
+		class UParticleSystem* ImpactParticles;
+
+	UPROPERTY(EditAnywhere)
+		USoundCue* HitSound;
+
+	UPROPERTY(EditAnywhere)
+		float Damage = 20.f;
 
 private:
-
-	UPROPERTY(EditAnywhere)
-	float Damage = 20.f;
-
-	UPROPERTY(EditAnywhere)
-	class UParticleSystem* ImpactParticles;
 
 	UPROPERTY(EditAnywhere)
 	class UParticleSystem* BeamParticles;
@@ -40,8 +43,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	USoundCue* FireSound;
 
-	UPROPERTY(EditAnywhere)
-	USoundCue* HitSound;
 
 protected:
 
