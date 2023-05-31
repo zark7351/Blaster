@@ -64,7 +64,11 @@ public:
 	UPROPERTY(EditAnywhere)
 	class USoundCue* EquippedSound;
 
+	/*
+	* Enable or disable custom depth
+	*/
 
+	void EnableCustomDepth(bool bEnable);
 
 protected:
 
