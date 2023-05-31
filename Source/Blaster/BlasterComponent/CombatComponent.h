@@ -19,14 +19,6 @@ public:
 	friend class ABlasterCharacter;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void EquipWeapon(class AWeapon* WeaponToEquip);
-	void Reload();
-	int32 AmountToReload();
-	UFUNCTION()
-	void OnRep_EquippedWeapon();
-	UFUNCTION(Server, Reliable)
-	void ServerReload();
-	void HandleReload();
 
 	UFUNCTION(BlueprintCallable)
 	void FinishReloading();
@@ -37,6 +29,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ShotgunShellReload();
 	void JumpToShotgunEnd();
+	UFUNCTION(BlueprintCallable)
+	void ThrowGrenadeFinished();
 
 protected:
 	virtual void BeginPlay() override;
@@ -53,6 +47,18 @@ protected:
 	void TraceUnderCrosshairs(FHitResult& TraceHitResult);
 
 	void SetHUDCrosshairs(float DeltaTime);
+	void EquipWeapon(class AWeapon* WeaponToEquip);
+	void Reload();
+	UFUNCTION()
+	void OnRep_EquippedWeapon();
+	UFUNCTION(Server, Reliable)
+	void ServerReload();
+	void HandleReload();
+	int32 AmountToReload();
+	void ThrowGrenade();
+	UFUNCTION(Server, Reliable)
+	void ServerThrowGrenade();
+
 
 private:
 	UPROPERTY()
