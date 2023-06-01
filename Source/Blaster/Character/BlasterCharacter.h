@@ -180,6 +180,13 @@ private:
 	UPROPERTY()
 	class ABlasterPlayerState* BlasterPlayerState;
 
+	/*
+	* Grenade
+	*/
+
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* AttachedGrenade;
+
 public:	
 
 	void SetOverLappingWeapon(AWeapon* Weapon);
@@ -200,4 +207,5 @@ public:
 	FORCEINLINE bool GetDisableGameplay() const { return bDisableGameplay; }
 	ECombatState GetCombatState() const;
 	FORCEINLINE UAnimMontage* GetReloadMontage()const { return ReloadMontage; }
+	FORCEINLINE UStaticMeshComponent* GetAttachedGrenade()const { return AttachedGrenade; }
 };
