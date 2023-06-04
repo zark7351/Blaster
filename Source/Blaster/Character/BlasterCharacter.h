@@ -37,6 +37,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void ShowSniperScopeWidget(bool bShowScope);
+	void UpdateHUDHealth();
 
 protected:
 	virtual void BeginPlay() override;
@@ -59,7 +60,6 @@ protected:
 	void FireButtonReleased();
 	UFUNCTION()
 	void ReceiveDamage(AActor* DamageActor, float Damage,const UDamageType* DamageType,class AController* InstigatorController,AActor* DamageCauser);
-	void UpdateHUDHealth();
 	// Poll for any relevant classes and initialize our HUD
 	void PollInit();
 	void RotateInplace(float DeltaTime);
@@ -130,7 +130,7 @@ private:
 	float Health=100.f;
 
 	UFUNCTION()
-	void OnRep_Health();
+	void OnRep_Health(float LastHealth);
 	UPROPERTY()
 	class ABlasterPlayerController* BlasterPlayerController;
 	bool bElimmed=false;
@@ -205,9 +205,11 @@ public:
 	FORCEINLINE bool IsElimmed() const { return bElimmed; }
 	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 	FORCEINLINE float GetHealth() const { return Health; }
+	FORCEINLINE void SetHealth(float Amount) { Health = Amount; }
 	FORCEINLINE UCombatComponent* GetCombat() const { return Combat; }
 	FORCEINLINE bool GetDisableGameplay() const { return bDisableGameplay; }
 	ECombatState GetCombatState() const;
 	FORCEINLINE UAnimMontage* GetReloadMontage()const { return ReloadMontage; }
 	FORCEINLINE UStaticMeshComponent* GetAttachedGrenade()const { return AttachedGrenade; }
+	FORCEINLINE UBuffComponent* GetBuff()const { return Buff; }
 };
