@@ -33,6 +33,10 @@ private:
 	UPROPERTY(EditAnywhere)
 	float CrouchSpeedBuff = 850.f;
 
+
+	UPROPERTY(EditAnywhere)
+	float JumpZVelocityBuff = 4000.f;
+
 	UPROPERTY(EditAnywhere)
 	float SpeedBuffTime = 30.f;
 };

@@ -18,10 +18,11 @@ void UBuffComponent::Heal(float HealAmount, float HealingTime)
 	AmountToHeal += HealAmount;
 }
 
-void UBuffComponent::SetInitialSpeeds(float BaseSpeed, float CrouchSpeed)
+void UBuffComponent::SetInitialSpeeds(float BaseSpeed, float CrouchSpeed,float JumpZVelocity)
 {
 	InitialBaseSpeed = BaseSpeed;
 	InitialCrouchSpeed = CrouchSpeed;
+	InitialJumpZVelocity = JumpZVelocity;
 }
 
 void UBuffComponent::HealRampup(float DeltaTime)
@@ -54,7 +55,7 @@ void UBuffComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 }
 
 
-void UBuffComponent::BuffSpeed(float BuffBaseSpeed, float BuffCrouchSpeed, float BuffTime)
+void UBuffComponent::BuffSpeed(float BuffBaseSpeed, float BuffCrouchSpeed, float BuffJumpZVelocity, float BuffTime)
 {
 	if (Characrer == nullptr) return;
 	Characrer->GetWorldTimerManager().SetTimer(SpeedBuffTimer, this, &UBuffComponent::ResetSpeed,BuffTime);
@@ -62,24 +63,29 @@ void UBuffComponent::BuffSpeed(float BuffBaseSpeed, float BuffCrouchSpeed, float
 	{
 		Characrer->GetCharacterMovement()->MaxWalkSpeed = BuffBaseSpeed;
 		Characrer->GetCharacterMovement()->MaxWalkSpeedCrouched = BuffCrouchSpeed;
+		Characrer->GetCharacterMovement()->JumpZVelocity = BuffJumpZVelocity;
 	}
-	MulticastSpeedBuff(BuffBaseSpeed, BuffCrouchSpeed);
+	MulticastSpeedBuff(BuffBaseSpeed, BuffCrouchSpeed, BuffJumpZVelocity);
 }
 
 void UBuffComponent::ResetSpeed()
 {
-	if (Characrer == nullptr) return;
-	if (Characrer->GetCharacterMovement())
+	if (Characrer && Characrer->GetCharacterMovement())
 	{
 		Characrer->GetCharacterMovement()->MaxWalkSpeed = InitialBaseSpeed;
 		Characrer->GetCharacterMovement()->MaxWalkSpeedCrouched = InitialCrouchSpeed;
+		Characrer->GetCharacterMovement()->JumpZVelocity = InitialJumpZVelocity;
 	}
-	MulticastSpeedBuff(InitialBaseSpeed, InitialCrouchSpeed);
+	MulticastSpeedBuff(InitialBaseSpeed, InitialCrouchSpeed, InitialJumpZVelocity);
 }
 
-void UBuffComponent::MulticastSpeedBuff_Implementation(float BaseSpeed, float CrouchSpeed)
+void UBuffComponent::MulticastSpeedBuff_Implementation(float BaseSpeed, float CrouchSpeed,float JumpZVelocity)
 {
-	Characrer->GetCharacterMovement()->MaxWalkSpeed = BaseSpeed;
-	Characrer->GetCharacterMovement()->MaxWalkSpeedCrouched = CrouchSpeed;
+	if (Characrer && Characrer->GetCharacterMovement())
+	{
+		Characrer->GetCharacterMovement()->MaxWalkSpeed = BaseSpeed;
+		Characrer->GetCharacterMovement()->MaxWalkSpeedCrouched = CrouchSpeed;
+		Characrer->GetCharacterMovement()->JumpZVelocity = JumpZVelocity;
+	}
 }
 

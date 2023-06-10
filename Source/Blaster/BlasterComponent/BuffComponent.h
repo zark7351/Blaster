@@ -16,8 +16,8 @@ public:
 	UBuffComponent();
 	friend class ABlasterCharacter;
 	void Heal(float HealAmount ,float HealingTime);
-	void BuffSpeed(float BuffBaseSpeed, float BuffCrouchSpeed, float BuffTime);
-	void SetInitialSpeeds(float BaseSpeed, float CrouchSpeed);
+	void BuffSpeed(float BuffBaseSpeed, float BuffCrouchSpeed,float BuffJumpZVelocity, float BuffTime);
+	void SetInitialSpeeds(float BaseSpeed, float CrouchSpeed,float JumpZVelocity);
 
 protected:
 	virtual void BeginPlay() override;
@@ -44,7 +44,8 @@ private:
 	void ResetSpeed();
 	float InitialBaseSpeed;
 	float InitialCrouchSpeed;
+	float InitialJumpZVelocity;
 
 	UFUNCTION(NetMulticast,Reliable)
-	void MulticastSpeedBuff(float BaseSpeed, float CrouchSpeed);
+	void MulticastSpeedBuff(float BaseSpeed, float CrouchSpeed, float JumpZVelocity);
 };
