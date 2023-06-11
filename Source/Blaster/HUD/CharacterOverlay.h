@@ -21,20 +21,26 @@ public:
 	class UTextBlock* HealthText;
 
 	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* ScoreAmount;
+	UProgressBar* ShieldhBar;
 
 	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* DefeatAmount;
+	UTextBlock* ShieldText;
 
 	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* WeaponAmmoAmount;
+	UTextBlock* ScoreAmount;
 
 	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* CarriedAmmoAmount;
+	UTextBlock* DefeatAmount;
 
 	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* MatchCountdownText;
+	UTextBlock* WeaponAmmoAmount;
 
 	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* GrenadesText;
+	UTextBlock* CarriedAmmoAmount;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* MatchCountdownText;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* GrenadesText;
 };
