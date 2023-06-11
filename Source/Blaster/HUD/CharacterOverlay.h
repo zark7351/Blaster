@@ -21,7 +21,7 @@ public:
 	class UTextBlock* HealthText;
 
 	UPROPERTY(meta = (BindWidget))
-	UProgressBar* ShieldhBar;
+	UProgressBar* ShieldBar;
 
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ShieldText;
