@@ -40,6 +40,8 @@ public:
 	void UpdateHUDHealth();
 	void UpdateHUDShield();
 
+	void SpawnDefaultWeapon();
+
 protected:
 	virtual void BeginPlay() override;
 	void MoveForward(float Value);
@@ -203,6 +205,13 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* AttachedGrenade;
+
+	/*
+	* Default weapon
+	*/
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class AWeapon> DefaultWeaponClass;
 
 public:	
 
