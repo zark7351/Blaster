@@ -39,6 +39,7 @@ public:
 	void ShowSniperScopeWidget(bool bShowScope);
 	void UpdateHUDHealth();
 	void UpdateHUDShield();
+	void UpdateHUDAmmo();
 
 	void SpawnDefaultWeapon();
 
