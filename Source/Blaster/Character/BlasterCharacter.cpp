@@ -387,15 +387,7 @@ void ABlasterCharacter::EquipButtonPressed()
 	if (bDisableGameplay) return;
 	if (Combat)
 	{	
-		StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
-		if (HasAuthority())
-		{
-		Combat->EquipWeapon(OverlappingWeapon);
-		}
-		else
-		{
-			ServerEquipButtonPressed();
-		}
+		ServerEquipButtonPressed();
 	}
 }
 
