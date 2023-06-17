@@ -54,6 +54,7 @@ protected:
 
 	void SetHUDCrosshairs(float DeltaTime);
 	void EquipWeapon(class AWeapon* WeaponToEquip);
+	void SwapWeapons();
 	void Reload();
 	UFUNCTION()
 	void OnRep_EquippedWeapon();
@@ -198,4 +199,5 @@ private:
 
 public:
 	FORCEINLINE int32 GetGrenades()const { return Grenades; }
+	bool ShouldSwapWeapons();
 };
