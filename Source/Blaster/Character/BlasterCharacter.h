@@ -67,6 +67,8 @@ protected:
 	// Poll for any relevant classes and initialize our HUD
 	void PollInit();
 	void RotateInplace(float DeltaTime);
+	void DropOrDestroyWeapon(AWeapon* Weapon);
+	void DropOrDestroyWeapons();
 
 private:
 	UPROPERTY(VisibleAnywhere,Category=Camera)
