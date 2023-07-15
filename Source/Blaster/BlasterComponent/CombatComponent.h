@@ -49,6 +49,7 @@ protected:
 	void ServerFire(const FVector_NetQuantize& TraceHitResult);
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastFire(const FVector_NetQuantize& TraceHitResult);
+	void LocalFire(const FVector_NetQuantize& TraceHitResult);
 
 	void TraceUnderCrosshairs(FHitResult& TraceHitResult);
 
