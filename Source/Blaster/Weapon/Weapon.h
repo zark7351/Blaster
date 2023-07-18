@@ -14,7 +14,18 @@ enum class EWeaponState :uint8
 	EWS_Equipped UMETA(DisplayName = "Equipped"),
 	EWS_EquippedSecondary UMETA(DisplayName = "EquippedSecondary"),
 	EWS_Dropped UMETA(DisplayName = "Dropped"),
+
 	EWS_MAX UMETA(DisplayName = "DefaultMax"),
+};
+
+UENUM(BlueprintType)
+enum class EFireType :uint8
+{
+	EFT_HitScan UMETA(DisplayName = "Hit Scan Weapon"),
+	EFT_Projectile UMETA(DisplayName = "Projectile Weapon"),
+	EFT_Shotgun UMETA(DisplayName = "Shotgun Weapon"),
+
+	EFT_MAX UMETA(DisplayName = "DefaultMax"),
 };
 
 UCLASS()
@@ -51,6 +62,7 @@ public:
 	void Dropped();
 	void AddAmmo(int32 AmmoToAdd);
 
+	FVector TranceEndWithScatter(const FVector& HitTarget);
 
 	/*
 	* Automatic Fire
@@ -71,6 +83,9 @@ public:
 	void EnableCustomDepth(bool bEnable);
 
 	bool bDestroyWeapon = false;
+
+	UPROPERTY(EditAnywhere)
+	EFireType FireType;
 
 protected:
 
@@ -148,6 +163,16 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	EWeaponType WeaponType;
+
+	/*
+	* Trace end for scatter
+	*/
+
+	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+		float DistanceToSphere = 800.f;
+
+	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+		float SphereRadius = 75.f;
 		
 public:	
 	void SetWeaponState(EWeaponState State);
@@ -163,5 +188,8 @@ public:
 	FORCEINLINE int32 GetAmmo() const { return Ammo; }
 	FORCEINLINE int32 GetMagCapacity() const { return MagCapacity; }
 
+
+	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+	bool bUseScatter = false;
 };
 

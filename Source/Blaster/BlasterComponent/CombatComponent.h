@@ -45,6 +45,9 @@ protected:
 	void ServerSetAiming(bool bIsAming);
 
 	void Fire();
+	void FireProjectileWeapon();
+	void FireHitScanWeapon();
+	void FireShotgun();
 	UFUNCTION(Server, Reliable)
 	void ServerFire(const FVector_NetQuantize& TraceHitResult);
 	UFUNCTION(NetMulticast, Reliable)
