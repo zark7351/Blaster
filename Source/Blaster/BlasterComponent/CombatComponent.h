@@ -50,9 +50,14 @@ protected:
 	void FireShotgun();
 	UFUNCTION(Server, Reliable)
 	void ServerFire(const FVector_NetQuantize& TraceHitResult);
+	UFUNCTION(Server, Reliable)
+	void ServerShotgunFire(const TArray<FVector_NetQuantize>& TraceHitResults);
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastFire(const FVector_NetQuantize& TraceHitResult);
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastShotgunFire(const TArray<FVector_NetQuantize>& TraceHitResults);
 	void LocalFire(const FVector_NetQuantize& TraceHitResult);
+	void LocalShotgunFire(const TArray<FVector_NetQuantize>& TraceHitResults);
 
 	void TraceUnderCrosshairs(FHitResult& TraceHitResult);
 
