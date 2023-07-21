@@ -42,14 +42,33 @@ void ULagCompensationComponent::ShowFramePackage(const FFramePackage& Package, c
 {
 	for (auto& BoxInfo : Package.HitBoxInfo)
 	{
-		DrawDebugBox(GetWorld(),BoxInfo.Value.Location,BoxInfo.Value.BoxExtent,FQuat(BoxInfo.Value.Rotation),Color,true);
+		DrawDebugBox(GetWorld(),BoxInfo.Value.Location,BoxInfo.Value.BoxExtent,FQuat(BoxInfo.Value.Rotation),Color,false,1.f);
 	}
 }
 
 void ULagCompensationComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if (FrameHistory.Num()<=1)
+	{
+		FFramePackage ThisFrame;
+		SaveFramePackage(ThisFrame);
+		FrameHistory.AddHead(ThisFrame);
+	}
+	else
+	{
+		float HistoryLenth=FrameHistory.GetHead()->GetValue().Time-FrameHistory.GetTail()->GetValue().Time;
+		while (HistoryLenth>MaxRecordTime)
+		{
+			FrameHistory.RemoveNode(FrameHistory.GetTail());
+			HistoryLenth=FrameHistory.GetHead()->GetValue().Time-FrameHistory.GetTail()->GetValue().Time;
+		}
+		FFramePackage ThisFrame;
+		SaveFramePackage(ThisFrame);
+		FrameHistory.AddHead(ThisFrame);
 
+		ShowFramePackage(ThisFrame,FColor::Red);
+	}
 }
 
 
