@@ -23,23 +23,6 @@ void ULagCompensationComponent::BeginPlay()
 	ShowFramePackage(FramePackage,FColor::Red);
 }
 
-void ULagCompensationComponent::SaveFramePackage(FFramePackage& Package)
-{
-	Character=Character==nullptr?Cast<ABlasterCharacter>(GetOwner()):Character;
-	if (Character)
-	{
-		Package.Time = GetWorld()->GetTimeSeconds();
-		for (auto BoxPair : Character->HitBoxes) 
-		{
-			FBoxInfomation BoxInfomation;
-			BoxInfomation.Location = BoxPair.Value->GetComponentLocation();
-			BoxInfomation.Rotation = BoxPair.Value->GetComponentRotation();
-			BoxInfomation.BoxExtent = BoxPair.Value->GetScaledBoxExtent();
-			Package.HitBoxInfo.Add(BoxPair.Key,BoxInfomation );
-		}
-	}
-}
-
 void ULagCompensationComponent::SaveFramePackage()
 {
 	if (Character == nullptr || !Character->HasAuthority()) return;
@@ -62,6 +45,24 @@ void ULagCompensationComponent::SaveFramePackage()
 		FrameHistory.AddHead(ThisFrame);
 
 		//ShowFramePackage(ThisFrame, FColor::Red);
+	}
+}
+
+void ULagCompensationComponent::SaveFramePackage(FFramePackage& Package)
+{
+	Character = Character == nullptr ? Cast<ABlasterCharacter>(GetOwner()) : Character;
+	if (Character)
+	{
+		Package.Time = GetWorld()->GetTimeSeconds();
+		Package.Character= Character;
+		for (auto BoxPair : Character->HitBoxes)
+		{
+			FBoxInfomation BoxInfomation;
+			BoxInfomation.Location = BoxPair.Value->GetComponentLocation();
+			BoxInfomation.Rotation = BoxPair.Value->GetComponentRotation();
+			BoxInfomation.BoxExtent = BoxPair.Value->GetScaledBoxExtent();
+			Package.HitBoxInfo.Add(BoxPair.Key, BoxInfomation);
+		}
 	}
 }
 
@@ -139,6 +140,11 @@ FServerSideRewindResult ULagCompensationComponent::ConfirmHit(const FFramePackag
 	return FServerSideRewindResult{ false,false };
 }
 
+FShotgunServerSideRewindResult ULagCompensationComponent::ShotgunConfirmHit(const TArray<FFramePackage>& FramePackages, ABlasterCharacter* HitCharacter, const FVector_NetQuantize& TraceStart, const FVector_NetQuantize& HitLocation)
+{
+	return FShotgunServerSideRewindResult();
+}
+
 void ULagCompensationComponent::CacheBoxPositions(ABlasterCharacter* HitCharacter, FFramePackage& OutFramePackage)
 {
 	if (HitCharacter == nullptr) return;
@@ -204,58 +210,74 @@ void ULagCompensationComponent::ShowFramePackage(const FFramePackage& Package, c
 
 FServerSideRewindResult ULagCompensationComponent::ServerSideRewind(ABlasterCharacter* HitCharacter, const FVector_NetQuantize& TraceStart, const FVector_NetQuantize HitLocation, float HitTime)
 {
+	FFramePackage FrameToCheck = GetFrameToCheck(HitCharacter, HitTime);
+	return ConfirmHit(FrameToCheck, HitCharacter, TraceStart, HitLocation);
+}
+
+FShotgunServerSideRewindResult ULagCompensationComponent::ShotgunServerSideRewind(TArray<ABlasterCharacter*> HitCharacters, const FVector_NetQuantize& TraceStart, const TArray<FVector_NetQuantize>& HitLocations, float HitTime)
+{
+	TArray<FFramePackage> FramesToCheck;
+	for (ABlasterCharacter* HitCharacter : HitCharacters)
+	{
+		FramesToCheck.Add(GetFrameToCheck(HitCharacter,HitTime));
+	}
+	return FShotgunServerSideRewindResult();
+}
+
+FFramePackage ULagCompensationComponent::GetFrameToCheck(ABlasterCharacter* HitCharacter, float HitTime)
+{
 	bool bReturn = HitCharacter == nullptr ||
 		HitCharacter->GetLagCompensation() == nullptr ||
 		HitCharacter->GetLagCompensation()->FrameHistory.GetHead() == nullptr ||
 		HitCharacter->GetLagCompensation()->FrameHistory.GetTail() == nullptr;
 
-	if (bReturn)	return FServerSideRewindResult();
-	
+	if (bReturn)	return FFramePackage();
+
 	FFramePackage FrameToCheck;
 	bool bShouldInterpolate = true;
 
 	const TDoubleLinkedList<FFramePackage>* History = &HitCharacter->GetLagCompensation()->FrameHistory;
-	const float OldestHistoryTime=History->GetTail()->GetValue().Time;
-	const float NewestHistoryTime=History->GetHead()->GetValue().Time;
+	const float OldestHistoryTime = History->GetTail()->GetValue().Time;
+	const float NewestHistoryTime = History->GetHead()->GetValue().Time;
 
-	if (OldestHistoryTime> HitTime)
+	if (OldestHistoryTime > HitTime)
 	{
-		return FServerSideRewindResult();
+		return FFramePackage();
 	}
-	if (OldestHistoryTime==HitTime)
+	if (OldestHistoryTime == HitTime)
 	{
 		FrameToCheck = History->GetHead()->GetValue();
-		bShouldInterpolate=false;
+		bShouldInterpolate = false;
 	}
-	if (NewestHistoryTime<=HitTime)
+	if (NewestHistoryTime <= HitTime)
 	{
-		FrameToCheck=History->GetHead()->GetValue();
-		bShouldInterpolate=false;
+		FrameToCheck = History->GetHead()->GetValue();
+		bShouldInterpolate = false;
 	}
 
-	TDoubleLinkedList<FFramePackage>::TDoubleLinkedListNode* Younger=History->GetHead();
+	TDoubleLinkedList<FFramePackage>::TDoubleLinkedListNode* Younger = History->GetHead();
 	TDoubleLinkedList<FFramePackage>::TDoubleLinkedListNode* Older = Younger;
-	while (Older->GetValue().Time>HitTime)
+	while (Older->GetValue().Time > HitTime)
 	{
 		//March back until: OlderTime < HitTime < YoungerTime
 		if (Older->GetNextNode() == nullptr)break;
-		Older=Older->GetNextNode();
-		if (Older->GetValue().Time>HitTime)
+		Older = Older->GetNextNode();
+		if (Older->GetValue().Time > HitTime)
 		{
 			Younger = Older;
 		}
 	}
-	if (Older->GetValue().Time==HitTime) // hightly unlikely, but we found frame to check
+	if (Older->GetValue().Time == HitTime) // hightly unlikely, but we found frame to check
 	{
 		FrameToCheck = Older->GetValue();
-		bShouldInterpolate=false;
+		bShouldInterpolate = false;
 	}
 	if (bShouldInterpolate)
 	{
 		//interpolate between Older and Younger
 		FrameToCheck = InterpBetweenFrames(Older->GetValue(), Younger->GetValue(), HitTime);
 	}
-	return ConfirmHit(FrameToCheck, HitCharacter, TraceStart, HitLocation);
+	return FFramePackage();
 }
 
 void ULagCompensationComponent::ServerScoreRequest_Implementation(ABlasterCharacter* HitCharacter, const FVector_NetQuantize& TraceStart, const FVector_NetQuantize& HitLocation, float HitTime, AWeapon* DamageCauser)
