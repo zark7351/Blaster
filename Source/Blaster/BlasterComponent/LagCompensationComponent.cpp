@@ -337,7 +337,7 @@ void ULagCompensationComponent::ShotgunServerScoreRequest_Implementation(const T
 		float TotalDamage = 0.f;
 		if (Confirm.HeadShots.Contains(HitCharacter))
 		{
-			TotalDamage += Confirm.HeadShots[HitCharacter] * Character->GetEquippedWeapon()->GetDamage();
+			TotalDamage += Confirm.HeadShots[HitCharacter] * Character->GetEquippedWeapon()->GetDamage();	//这里教程用的是HitCharacter的weapon，不对吧
 		}
 		if (Confirm.BodyShots.Contains(HitCharacter))
 		{
@@ -406,6 +406,7 @@ FFramePackage ULagCompensationComponent::GetFrameToCheck(ABlasterCharacter* HitC
 		//interpolate between Older and Younger
 		FrameToCheck = InterpBetweenFrames(Older->GetValue(), Younger->GetValue(), HitTime);
 	}
+	FrameToCheck.Character = HitCharacter;
 	return FFramePackage();
 }
 

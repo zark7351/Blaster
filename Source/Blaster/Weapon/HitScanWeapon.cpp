@@ -34,17 +34,41 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 			ABlasterCharacter* BlasterCharacter = Cast<ABlasterCharacter>(FireHit.GetActor());
 			if (BlasterCharacter && InstigatorController)
 			{
-				if (HasAuthority() && !bUseServerSideRewind)
+				//这里的逻辑我感觉讲的有问题,没有考虑到服务器本地控制且bUseServerSideRewind为true的情况
+				//if (HasAuthority() && !bUseServerSideRewind)	
+				//{
+				//	UGameplayStatics::ApplyDamage(
+				//		BlasterCharacter,
+				//		Damage,
+				//		InstigatorController,
+				//		this,
+				//		UDamageType::StaticClass()
+				//	);
+				//}
+				if (HasAuthority())
 				{
-					UGameplayStatics::ApplyDamage(
-						BlasterCharacter,
-						Damage,
-						InstigatorController,
-						this,
-						UDamageType::StaticClass()
-					);
+					if (BlasterOwnerCharacter->IsLocallyControlled())
+					{
+						UGameplayStatics::ApplyDamage(
+							BlasterCharacter,
+							Damage,
+							InstigatorController,
+							this,
+							UDamageType::StaticClass()
+						);
+					}
+					else if (!bUseServerSideRewind)
+					{
+						UGameplayStatics::ApplyDamage(
+							BlasterCharacter,
+							Damage,
+							InstigatorController,
+							this,
+							UDamageType::StaticClass()
+						);
+					}
 				}
-				if(HasAuthority() && bUseServerSideRewind)
+				if(!HasAuthority() && bUseServerSideRewind && BlasterOwnerCharacter->IsLocallyControlled())
 				{
 					BlasterOwnerCharacter=BlasterOwnerCharacter==nullptr?Cast<ABlasterCharacter>(OwnerPawn):BlasterOwnerCharacter;
 					BlasterOwnerController=BlasterOwnerController==nullptr?Cast<ABlasterPlayerController>(InstigatorController) :BlasterOwnerController;
