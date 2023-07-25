@@ -407,7 +407,7 @@ FFramePackage ULagCompensationComponent::GetFrameToCheck(ABlasterCharacter* HitC
 		FrameToCheck = InterpBetweenFrames(Older->GetValue(), Younger->GetValue(), HitTime);
 	}
 	FrameToCheck.Character = HitCharacter;
-	return FFramePackage();
+	return FrameToCheck;
 }
 
 void ULagCompensationComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

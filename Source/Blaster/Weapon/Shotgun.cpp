@@ -66,7 +66,7 @@ void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
 		TArray<ABlasterCharacter*> HitCharacters;
 		for (auto HitPair : HitMap)
 		{
-			if (HitPair.Key && HasAuthority() && InstigatorController)
+			if (HitPair.Key && InstigatorController)
 			{
 				//if (HasAuthority() && !bUseServerSideRewind)
 				//{
@@ -78,13 +78,14 @@ void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
 				//		UDamageType::StaticClass()
 				//	);
 				//}
+				HitCharacters.Add(HitPair.Key);
 				if (HasAuthority())
 				{
 					if (BlasterOwnerCharacter->IsLocallyControlled())
 					{
 						UGameplayStatics::ApplyDamage(
 							HitPair.Key,
-							Damage * HitPair.Value,,
+							Damage * HitPair.Value,
 							InstigatorController,
 							this,
 							UDamageType::StaticClass()
@@ -101,7 +102,6 @@ void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
 						);
 					}
 				}
-				HitCharacters.Add(HitPair.Key);
 			}
 		}
 		if (!HasAuthority() && bUseServerSideRewind && BlasterOwnerCharacter->IsLocallyControlled())
@@ -114,7 +114,7 @@ void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
 					HitCharacters,
 					Start,
 					HitTargets,
-					BlasterOwnerController->GetServerTime() - BlasterOwnerController->SingleTripTime,
+					BlasterOwnerController->GetServerTime() - BlasterOwnerController->SingleTripTime
 				);
 			}
 		}
