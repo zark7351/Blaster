@@ -15,6 +15,23 @@ AProjectileBullet::AProjectileBullet()
 	ProjectileMovement->MaxSpeed = InitialSpeed;
 }
 
+#if WITH_EDITOR
+void AProjectileBullet::PostEditChangeProperty(FPropertyChangedEvent& Event)
+{
+	Super::PostEditChangeProperty(Event);
+
+	FName PropertyName = Event.Property != nullptr ? Event.Property->GetFName() : NAME_None;
+	if (PropertyName == GET_MEMBER_NAME_CHECKED(AProjectileBullet, InitialSpeed))
+	{
+		if (ProjectileMovement)
+		{
+			ProjectileMovement->InitialSpeed = InitialSpeed;
+			ProjectileMovement->MaxSpeed = InitialSpeed;
+		}
+	}
+}
+#endif
+
 void AProjectileBullet::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	ACharacter* OwnerCharacter=Cast<ACharacter>(GetOwner());
