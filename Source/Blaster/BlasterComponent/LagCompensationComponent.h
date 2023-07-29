@@ -97,7 +97,24 @@ protected:
 		const TArray<FVector_NetQuantize>& HitLocations);
 
 	FFramePackage InterpBetweenFrames(const FFramePackage& OlderFrame,const FFramePackage& YoungerFrame,float HitTime);
+
+	/*
+	* HitScan
+	*/
+
 	FServerSideRewindResult ConfirmHit(const FFramePackage& Package, ABlasterCharacter* HitCharacter, const FVector_NetQuantize& TraceStart, const FVector_NetQuantize& HitLocation);
+
+	/*
+	* Projectile
+	*/
+
+	FServerSideRewindResult ProjectileConfirmHit(
+		const FFramePackage& Package,
+		ABlasterCharacter* HitCharacter,
+		const FVector_NetQuantize& TraceStart,
+		const FVector_NetQuantize100& InitialVelocity,
+		float HitTime
+	);
 	void CacheBoxPositions(ABlasterCharacter* HitCharacter,FFramePackage& OutFramePackage);
 	void MoveBoxes(ABlasterCharacter* HitCharacter, const FFramePackage& Package);
 	void ResetHitBoxes(ABlasterCharacter* HitCharacter, const FFramePackage& Package);
@@ -106,7 +123,13 @@ protected:
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void ShowFramePackage(const FFramePackage& Package,const FColor& Color);
-	FServerSideRewindResult ServerSideRewind(class ABlasterCharacter* HitCharacter,
+
+	/*
+	* HitScan
+	*/
+
+	FServerSideRewindResult ServerSideRewind(
+		class ABlasterCharacter* HitCharacter,
 		const FVector_NetQuantize& TraceStart,
 		const FVector_NetQuantize HitLocation,
 		float HitTime);
@@ -119,6 +142,29 @@ public:
 		float HitTime,
 		class AWeapon* DamageCauser
 	);
+
+	/*
+	* Projectile
+	*/
+
+	FServerSideRewindResult ProjectileServerSideRewind(
+		ABlasterCharacter* HitCharacter,
+		const FVector_NetQuantize& TraceStart,
+		const FVector_NetQuantize100& InitialVelocity,
+		float HitTime
+	);
+
+	UFUNCTION(Server, Reliable)
+		void ProjectileServerScoreRequest(
+			ABlasterCharacter* HitCharacter,
+			const FVector_NetQuantize& TraceStart,
+			const FVector_NetQuantize100& InitialVelocity,
+			float HitTime
+		);
+
+	/*
+	* Shotgun
+	*/
 
 	FShotgunServerSideRewindResult ShotgunServerSideRewind(
 		TArray<ABlasterCharacter*> HitCharacters,

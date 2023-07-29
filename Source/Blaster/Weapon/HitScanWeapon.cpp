@@ -47,7 +47,7 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 				//}
 				if (HasAuthority())
 				{
-					if (BlasterOwnerCharacter->IsLocallyControlled())
+					if (OwnerPawn->IsLocallyControlled())
 					{
 						UGameplayStatics::ApplyDamage(
 							BlasterCharacter,
@@ -68,7 +68,7 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 						);
 					}
 				}
-				if(!HasAuthority() && bUseServerSideRewind && BlasterOwnerCharacter->IsLocallyControlled())
+				if(!HasAuthority() && bUseServerSideRewind && OwnerPawn->IsLocallyControlled())
 				{
 					BlasterOwnerCharacter=BlasterOwnerCharacter==nullptr?Cast<ABlasterCharacter>(OwnerPawn):BlasterOwnerCharacter;
 					BlasterOwnerController=BlasterOwnerController==nullptr?Cast<ABlasterPlayerController>(InstigatorController) :BlasterOwnerController;
