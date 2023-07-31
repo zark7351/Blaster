@@ -55,6 +55,12 @@ public:
 
 	bool bFinishedSwapping = false;
 
+
+	UFUNCTION(Server, Reliable)
+	void ServerLeaveGame();
+
+	FOnleftGame OnLeftGame;
+
 protected:
 	virtual void BeginPlay() override;
 	void MoveForward(float Value);
@@ -180,10 +186,6 @@ private:
 
 	bool bLeftGame = false;
 
-	FOnleftGame OnLeftGame;
-
-	UFUNCTION(Server, Reliable)
-	void ServerLeaveGame();
 
 	/*
 	* Dissolve Effect
