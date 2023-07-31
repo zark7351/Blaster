@@ -106,3 +106,8 @@ void ABlasterGameMode::RequestRespawn(ACharacter* ElimmedCharacter, AController*
 		RestartPlayerAtPlayerStart(ElimmedController, PlayerStarts[Selection]);
 	}
 }
+
+void ABlasterGameMode::PlayerLeftGame()
+{
+	//TODO call elim, passing in true for bLeftGame
+}
