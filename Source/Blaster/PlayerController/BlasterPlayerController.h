@@ -51,6 +51,8 @@ protected:
 	* Sync time between server and client
 	*/
 
+	virtual void SetupInputComponent()override;
+
 	//Request the current server time, passing in the client's time when the request was sent
 	UFUNCTION(Server,Reliable)
 	void ServerRequestServerTime(float TimeOfClientRequest);
@@ -78,9 +80,23 @@ protected:
 	void StopHighPingWarning();
 	void CheckPing(float DeltaTime);
 
+	void ShowReturnToMainMenu();
+
 private:
 	UPROPERTY()	
 	class ABlasterHUD* BlasterHUD;
+
+	/*
+	* Return to main menu
+	*/
+
+	UPROPERTY(EditAnywhere,Category=HUD)
+	TSubclassOf<class UUserWidget>ReturnToMainMenuWidget;
+
+	UPROPERTY()
+	class UReturnToMainMenu* ReturnToMainMenu;
+
+	bool bReturnToMainMenuOpen = false;
 
 	UPROPERTY()
 	class ABlasterGameMode* BlasterGameMode;
