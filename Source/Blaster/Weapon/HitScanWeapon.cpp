@@ -8,7 +8,6 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Sound/SoundCue.h"
 #include "WeaponTypes.h"
-#include "DrawDebugHelpers.h"
 #include "Blaster/BlasterComponent/LagCompensationComponent.h"
 #include "Blaster/PlayerController/BlasterPlayerController.h"
 
@@ -157,7 +156,6 @@ void AHitScanWeapon::WeaponTranceHit(const FVector& TraceStart, const FVector& H
 			BeamEnd = OutHit.ImpactPoint;
 		}
 
-		//DrawDebugSphere(GetWorld(), BeamEnd, 16.f, 12, FColor::Orange, true);
 		if (BeamParticles)
 		{
 			UParticleSystemComponent* Beam = UGameplayStatics::SpawnEmitterAtLocation(
