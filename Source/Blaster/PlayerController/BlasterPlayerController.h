@@ -40,6 +40,9 @@ public:
 
 	FHighPingDeleget HighPingDeleget;
 
+
+	void BroadcastElim(APlayerState* Attacker,APlayerState* Victim);
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -81,6 +84,9 @@ protected:
 	void CheckPing(float DeltaTime);
 
 	void ShowReturnToMainMenu();
+
+	UFUNCTION(Client,Reliable)
+	void ClientElimAnnouncement(APlayerState* Attacker, APlayerState* Victim);
 
 private:
 	UPROPERTY()	
