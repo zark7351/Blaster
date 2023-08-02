@@ -42,9 +42,10 @@ void AProjectileBullet::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherAc
 		ABlasterPlayerController* OwnerController = Cast<ABlasterPlayerController>(OwnerCharacter->Controller);
 		if (OwnerController)
 		{
+			const float DamangeToCause = Hit.BoneName.ToString() == FString("head") ? HeadShotDamage : Damage;
 			if (OwnerCharacter->HasAuthority() && !bUseServerSideRewind)
 			{
-				UGameplayStatics::ApplyDamage(OtherActor, Damage, OwnerController, this, UDamageType::StaticClass());
+				UGameplayStatics::ApplyDamage(OtherActor, DamangeToCause, OwnerController, this, UDamageType::StaticClass());
 				Super::OnHit(HitComponent, OtherActor, OtherComp, NormalImpulse, Hit);
 				return;
 			}
