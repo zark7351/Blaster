@@ -22,6 +22,12 @@ public:
 	UPROPERTY(Replicated)
 	TArray<ABlasterPlayerState*> TopScoringPlayers;
 
+	/*
+	*  Teams
+	*/
+	TArray<ABlasterPlayerState*>RedTeam;
+	TArray<ABlasterPlayerState*>BlueTeam;
+
 private:
 	float TopScore = 0.f;
 };
