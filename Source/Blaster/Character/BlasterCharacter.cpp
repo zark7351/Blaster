@@ -774,7 +774,7 @@ void ABlasterCharacter::FireButtonReleased()
 void ABlasterCharacter::ReceiveDamage(AActor* DamageActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)
 {
 	if (bElimmed) return;
-
+	BlasterGameMode =BlasterGameMode==nullptr? GetWorld()->GetAuthGameMode<ABlasterGameMode>():BlasterGameMode;
 	float DamageToHealth = Damage;
 	if (Shield > 0.f)
 	{
@@ -796,7 +796,6 @@ void ABlasterCharacter::ReceiveDamage(AActor* DamageActor, float Damage, const U
 
 	if (Health==0.f)
 	{
-		ABlasterGameMode* BlasterGameMode = GetWorld()->GetAuthGameMode<ABlasterGameMode>();
 		if (BlasterGameMode)
 		{
 			BlasterPlayerController = BlasterPlayerController==nullptr?Cast<ABlasterPlayerController>(Controller):BlasterPlayerController;

@@ -333,6 +333,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	class UBoxComponent* foot_r;
 
+	UPROPERTY()
+	ABlasterGameMode* BlasterGameMode;
+
 public:	
 
 	void SetOverLappingWeapon(AWeapon* Weapon);
