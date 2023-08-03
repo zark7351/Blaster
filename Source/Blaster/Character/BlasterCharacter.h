@@ -334,7 +334,7 @@ private:
 	class UBoxComponent* foot_r;
 
 	UPROPERTY()
-	ABlasterGameMode* BlasterGameMode;
+	class ABlasterGameMode* BlasterGameMode;
 
 public:	
 
@@ -358,6 +358,7 @@ public:
 	FORCEINLINE void SetShield(float Amount) { Shield = Amount; }
 	FORCEINLINE UCombatComponent* GetCombat() const { return Combat; }
 	FORCEINLINE bool GetDisableGameplay() const { return bDisableGameplay; }
+	UFUNCTION(BlueprintCallable)
 	ECombatState GetCombatState() const;
 	FORCEINLINE UAnimMontage* GetReloadMontage()const { return ReloadMontage; }
 	FORCEINLINE UStaticMeshComponent* GetAttachedGrenade()const { return AttachedGrenade; }
