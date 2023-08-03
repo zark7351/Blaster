@@ -55,8 +55,6 @@ void ABlasterPlayerState::On_Rep_Defeats()
 	}
 }
 
-
-
 void ABlasterPlayerState::OnRep_Score()
 {
 	Super::OnRep_Score();
@@ -68,5 +66,25 @@ void ABlasterPlayerState::OnRep_Score()
 		{
 			Controller->SetHUDScore(GetScore());
 		}
+	}
+}
+
+void ABlasterPlayerState::SetTeam(ETeam TeamToSet)
+{
+	Team = TeamToSet;
+	ABlasterCharacter* BC = Cast<ABlasterCharacter>(GetPawn());
+	if (BC)
+	{
+		BC->SetTeamColor(Team);
+	}
+}
+
+
+void ABlasterPlayerState::OnRep_Team()
+{
+	ABlasterCharacter* BC = Cast<ABlasterCharacter>(GetPawn());
+	if (BC)
+	{
+		BC->SetTeamColor(Team);
 	}
 }
