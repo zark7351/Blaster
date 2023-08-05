@@ -93,9 +93,12 @@ protected:
 	void ReceiveDamage(AActor* DamageActor, float Damage,const UDamageType* DamageType,class AController* InstigatorController,AActor* DamageCauser);
 	// Poll for any relevant classes and initialize our HUD
 	void PollInit();
+	void OnPlayerStateInitialized();
 	void RotateInplace(float DeltaTime);
 	void DropOrDestroyWeapon(AWeapon* Weapon);
 	void DropOrDestroyWeapons();
+
+	void SetSpawnPoint();
 
 private:
 	UPROPERTY(VisibleAnywhere,Category=Camera)
