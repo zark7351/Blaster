@@ -332,8 +332,9 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 	{
 		Character->Crouch();
 		bHoldingTheFlag = true;
-		AttachFlagToLeftHand(WeaponToEquip);
+		Flag = WeaponToEquip;
 		WeaponToEquip->SetWeaponState(EWeaponState::EWS_Equipped);
+		AttachFlagToLeftHand(WeaponToEquip);
 		WeaponToEquip->SetOwner(Character);
 	}
 	else
@@ -426,7 +427,7 @@ void UCombatComponent::AttachActorToLeftHand(AActor* ActorToAttach)
 	}
 }
 
-void UCombatComponent::AttachFlagToLeftHand(AWeapon* Flag)
+void UCombatComponent::AttachFlagToLeftHand(AWeapon* TheFlag)
 {
 	if (Character == nullptr || Character->GetMesh() == nullptr || Flag == nullptr) return;
 	const USkeletalMeshSocket* FlagSocket = Character->GetMesh()->GetSocketByName(FName("FlagSocket"));
@@ -750,6 +751,11 @@ void UCombatComponent::OnRep_SecondaryWeapon()
 		AttachActorToBackpack(SecondaryWeapon);
 		PlayEquipWeaponSound(EquippedWeapon);
 	}
+}
+
+void UCombatComponent::OnRep_Flag()
+{
+
 }
 
 

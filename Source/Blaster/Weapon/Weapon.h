@@ -59,7 +59,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UTexture2D* CrosshairsButtom;
 
-	void Dropped();
+	virtual void Dropped();
 	void AddAmmo(int32 AmmoToAdd);
 
 	FVector TranceEndWithScatter(const FVector& HitTarget);
@@ -81,7 +81,8 @@ public:
 	*/
 
 	void EnableCustomDepth(bool bEnable);
-
+	
+	// Default weapon
 	bool bDestroyWeapon = false;
 
 	UPROPERTY(EditAnywhere)

@@ -77,6 +77,8 @@ protected:
 	void OnRep_EquippedWeapon();
 	UFUNCTION()
 	void OnRep_SecondaryWeapon();
+	UFUNCTION()
+	void OnRep_Flag();
 	UFUNCTION(Server, Reliable)
 	void ServerReload();
 	void HandleReload();
@@ -90,7 +92,7 @@ protected:
 	void DropEquippedWeapon();
 	void AttachActorToRightHand(AActor* ActorToAttach);
 	void AttachActorToLeftHand(AActor* ActorToAttach);
-	void AttachFlagToLeftHand(AWeapon* Flag);
+	void AttachFlagToLeftHand(AWeapon* TheFlag);
 
 	void AttachActorToBackpack(AActor* ActorToAttach);
 	void UpdateCarriedAmmo();
@@ -113,6 +115,9 @@ private:
 
 	UPROPERTY(ReplicatedUsing = OnRep_SecondaryWeapon)
 	AWeapon* SecondaryWeapon;
+
+	UPROPERTY(ReplicatedUsing = OnRep_Flag)
+	AWeapon* Flag;
 
 	UPROPERTY(Replicated,ReplicatedUsing= OnRep_Aiming)
 	bool bAiming;
