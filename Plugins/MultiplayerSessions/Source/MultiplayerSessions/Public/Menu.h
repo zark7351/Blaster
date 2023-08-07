@@ -18,7 +18,7 @@ class MULTIPLAYERSESSIONS_API UMenu : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintCallable)
-		void MenuSetup(int32 NumberOfPublicConnections = 4, FString TypeOfMatch = FString(TEXT("FreeForAll")), FString LobbyPath = TEXT("/Game/Maps/Lobby"));
+	void MenuSetup(int32 NumberOfPublicConnections = 4, FString TypeOfMatch = FString(TEXT("FreeForAll")), FString LobbyPath = TEXT("/Game/Maps/Lobby"));
 
 protected:
 	virtual bool Initialize() override;
@@ -47,6 +47,8 @@ private:
 	class UMultiplayerSessionsSubsystem* MultiplayerSessionsSubsystem;
 
 	int32 NumPublicConnections{4};
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	FString MatchType{TEXT("FreeForAll")};
 	FString PathToLobby{ TEXT("") };
 };
