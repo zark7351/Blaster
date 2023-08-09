@@ -24,18 +24,9 @@ void AGameModeOfLobby::PostLogin(APlayerController* NewPlayer)
 				bUseSeamlessTravel = true;
 
 				FString MatchType = SubSystem->DesiredMatchType;
-				if (MatchType == "FreeForAll")
-				{
-					World->ServerTravel(FString("/Game/Maps/BlasterMap?listen"));
-				}
-				else if (MatchType == "Teams")
-				{
-					World->ServerTravel(FString("/Game/Maps/Teams?listen"));
-				}
-				else if (MatchType == "CaptureTheFlag")
-				{
-					World->ServerTravel(FString("/Game/Maps/CaptureTheFlag?listen"));
-				}
+				FString Map = SubSystem->DesiredMap;
+				FString Path = FString::Printf(TEXT("/Game/Maps/%s%s?listen"), *Map, *MatchType);
+				World->ServerTravel(Path);
 			}
 		}
 	}

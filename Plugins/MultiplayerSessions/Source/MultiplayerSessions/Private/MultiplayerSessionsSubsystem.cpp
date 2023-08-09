@@ -22,9 +22,10 @@ UMultiplayerSessionsSubsystem::UMultiplayerSessionsSubsystem():
 	}
 }
 
-void UMultiplayerSessionsSubsystem::CreateSession(int32 NumPublicConnections, FString MatchType)
+void UMultiplayerSessionsSubsystem::CreateSession(int32 NumPublicConnections, FString MatchType, FString Map)
 {
 	DesiredMatchType = MatchType;
+	DesiredMap = Map;
 	if (!SessionInterface.IsValid())
 	{
 		return;

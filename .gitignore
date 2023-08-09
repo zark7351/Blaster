@@ -6,3 +6,5 @@ DerivedDataCache
 Intermediate
 Saved
 /*.sln
+/Content/Assets/TrainStation/Maps/TrainStation_BuiltData.uasset
+/Content/Assets/AssetsvilleTown/Maps/Town_BuiltData.uasset

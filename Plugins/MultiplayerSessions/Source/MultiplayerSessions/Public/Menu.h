@@ -49,6 +49,9 @@ private:
 	int32 NumPublicConnections{4};
 
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	FString MatchType{TEXT("FreeForAll")};
+	FString MatchType{TEXT("Free")};
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	FString Map {TEXT("Blaster")};
 	FString PathToLobby{ TEXT("") };
 };
