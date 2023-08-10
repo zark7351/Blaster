@@ -80,4 +80,7 @@ private:
 
 	UPROPERTY(BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"));
 	bool bHoldingTheFlag;
+
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"));
+	FName RightHandBone = FName("hand_r");
 };

@@ -161,7 +161,29 @@ ABlasterCharacter::ABlasterCharacter()
 			Box.Value->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		}
 	}
+
+	RetargetMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("RetargetMesh"));
+	RetargetMesh->SetupAttachment(GetMesh());
 }
+
+
+void ABlasterCharacter::SetRetargetMesh()
+{
+	if (bUseRetargetMesh)
+	{
+		GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		GetMesh()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+		GetMesh()->SetHiddenInGame(true);
+		GetMesh()->SetVisibility(false);
+		CameraBoom->AttachToComponent(GetRetargetMesh(), FAttachmentTransformRules::KeepWorldTransform);
+		AttachedGrenade->AttachToComponent(GetRetargetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("GrenadeSocket"));
+		for (auto Box : HitBoxes)
+		{
+			Box.Value->AttachToComponent(GetRetargetMesh(), FAttachmentTransformRules::KeepWorldTransform,Box.Key);
+		}
+	}
+}
+
 void ABlasterCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -179,7 +201,7 @@ void ABlasterCharacter::MulticastGainTheLead_Implementation()
 	{
 		CrownComponent = UNiagaraFunctionLibrary::SpawnSystemAttached(
 			CrownSystem,
-			GetMesh(),
+			GetRetargetMesh(),
 			FName(),
 			GetActorLocation() + FVector(0.f, 0.f, 110.f),
 			GetActorRotation(),
@@ -203,19 +225,19 @@ void ABlasterCharacter::MulticastLostTheLead_Implementation()
 
 void ABlasterCharacter::SetTeamColor(ETeam Team)
 {
-	if (GetMesh() == nullptr || OriginalMaterial == nullptr) return;
+	if (GetRetargetMesh() == nullptr || OriginalMaterial == nullptr) return;
 	switch (Team)
 	{
 	case ETeam::ET_RedTeam:
-		GetMesh()->SetMaterial(0, RedMaterial);
+		GetRetargetMesh()->SetMaterial(0, RedMaterial);
 		DissolveMaterialInstance = RedDisolveMatIns;
 		break;
 	case ETeam::ET_BlueTeam:
-		GetMesh()->SetMaterial(0, BlueMaterial);
+		GetRetargetMesh()->SetMaterial(0, BlueMaterial);
 		DissolveMaterialInstance = BlueDisolveMatIns;
 		break;
 	case ETeam::ET_NoTeam:
-		GetMesh()->SetMaterial(0, OriginalMaterial);
+		GetRetargetMesh()->SetMaterial(0, OriginalMaterial);
 		DissolveMaterialInstance = BlueDisolveMatIns;
 		break;
 	case ETeam::ET_MAX:
@@ -240,6 +262,7 @@ void ABlasterCharacter::BeginPlay()
 	{
 		AttachedGrenade->SetVisibility(false);
 	}
+	SetRetargetMesh();
 }
 
 
@@ -346,7 +369,7 @@ void ABlasterCharacter::MulticastElim_Implementation(bool bPlayerLeftGame)
 		DynamicDissolveMaterialInstance=UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
 		if (DynamicDissolveMaterialInstance)
 		{
-			GetMesh()->SetMaterial(0, DynamicDissolveMaterialInstance);
+			GetRetargetMesh()->SetMaterial(0, DynamicDissolveMaterialInstance);
 			DynamicDissolveMaterialInstance->SetScalarParameterValue(TEXT("Dissolve"), -0.55f);
 			DynamicDissolveMaterialInstance->SetScalarParameterValue(TEXT("Glow"), 250.f);
 		}
@@ -371,7 +394,7 @@ void ABlasterCharacter::MulticastElim_Implementation(bool bPlayerLeftGame)
 	
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetRetargetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	AttachedGrenade->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	// Spawn elim bot
@@ -885,7 +908,7 @@ void ABlasterCharacter::HideCharacterIfCameraClose()
 	if (!IsLocallyControlled()) return;
 	if ((FollowCamera->GetComponentLocation()-GetActorLocation()).Size()<CameraThreshold)
 	{
-		GetMesh()->SetVisibility(false);
+		GetRetargetMesh()->SetVisibility(false);
 		if (Combat && Combat->EquippedWeapon && Combat->EquippedWeapon->GetWeaponMesh())
 		{
 			Combat->EquippedWeapon->GetWeaponMesh()->SetOwnerNoSee(true);
@@ -897,7 +920,7 @@ void ABlasterCharacter::HideCharacterIfCameraClose()
 	}
 	else
 	{
-		GetMesh()->SetVisibility(true);
+		GetRetargetMesh()->SetVisibility(true);
 		if (Combat && Combat->EquippedWeapon && Combat->EquippedWeapon->GetWeaponMesh())
 		{
 			Combat->EquippedWeapon->GetWeaponMesh()->SetOwnerNoSee(false);

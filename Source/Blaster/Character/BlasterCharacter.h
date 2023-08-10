@@ -339,6 +339,14 @@ private:
 	UPROPERTY()
 	class ABlasterGameMode* BlasterGameMode;
 
+	UPROPERTY(EditAnywhere)
+	USkeletalMeshComponent* RetargetMesh;
+
+	UPROPERTY(EditAnywhere)
+	bool bUseRetargetMesh = false;
+
+	void SetRetargetMesh();
+
 public:	
 
 	void SetOverLappingWeapon(AWeapon* Weapon);
@@ -371,4 +379,5 @@ public:
 	FORCEINLINE bool IsHoldingTheFlag()const;
 	ETeam GetTeam();
 	void SetHoldingTheFlag(bool bHolding);
+	FORCEINLINE USkeletalMeshComponent* GetRetargetMesh()const { return bUseRetargetMesh?RetargetMesh:GetMesh(); }
 };
