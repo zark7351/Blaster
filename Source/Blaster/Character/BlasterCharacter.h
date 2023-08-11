@@ -339,6 +339,10 @@ private:
 	UPROPERTY()
 	class ABlasterGameMode* BlasterGameMode;
 
+	/*
+	*  从父级网格体重定向动画，暂时不用
+	*/
+
 	UPROPERTY(EditAnywhere)
 	USkeletalMeshComponent* RetargetMesh;
 
