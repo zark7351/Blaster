@@ -54,11 +54,14 @@ void ULagCompensationComponent::SaveFramePackage(FFramePackage& Package)
 		Package.Character= Character;
 		for (auto BoxPair : Character->HitBoxes)
 		{
-			FBoxInfomation BoxInfomation;
-			BoxInfomation.Location = BoxPair.Value->GetComponentLocation();
-			BoxInfomation.Rotation = BoxPair.Value->GetComponentRotation();
-			BoxInfomation.BoxExtent = BoxPair.Value->GetScaledBoxExtent();
-			Package.HitBoxInfo.Add(BoxPair.Key, BoxInfomation);
+			if (BoxPair.Value!=nullptr)
+			{
+				FBoxInfomation BoxInfomation;
+				BoxInfomation.Location = BoxPair.Value->GetComponentLocation();
+				BoxInfomation.Rotation = BoxPair.Value->GetComponentRotation();
+				BoxInfomation.BoxExtent = BoxPair.Value->GetScaledBoxExtent();
+				Package.HitBoxInfo.Add(BoxPair.Key, BoxInfomation);
+			}
 		}
 	}
 }
@@ -97,7 +100,7 @@ FServerSideRewindResult ULagCompensationComponent::ConfirmHit(const FFramePackag
 	EnableCharacterMeshCollision(HitCharacter, ECollisionEnabled::NoCollision);
 
 	//Enable collision for the head first
-	UBoxComponent* HeadBox=HitCharacter->HitBoxes[FName("head")];
+	UBoxComponent* HeadBox=HitCharacter->HitBoxes[FName("HeadSocket")];
 	HeadBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	HeadBox->SetCollisionResponseToChannel(ECC_HitBox, ECollisionResponse::ECR_Block);
 
@@ -146,12 +149,13 @@ FServerSideRewindResult ULagCompensationComponent::ProjectileConfirmHit(const FF
 	EnableCharacterMeshCollision(HitCharacter, ECollisionEnabled::NoCollision);
 
 	//Enable collision for the head first
-	UBoxComponent* HeadBox = HitCharacter->HitBoxes[FName("head")];
+	UBoxComponent* HeadBox = HitCharacter->HitBoxes[FName("HeadSocket")];
 	HeadBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	HeadBox->SetCollisionResponseToChannel(ECC_HitBox, ECollisionResponse::ECR_Block);
 
 	FPredictProjectilePathParams PathParams;
 	FPredictProjectilePathResult PathResult;
+	PathParams.DrawDebugType = EDrawDebugTrace::None;
 	PathParams.bTraceWithCollision = true;
 	PathParams.MaxSimTime = MaxRecordTime;
 	PathParams.LaunchVelocity = InitialVelocity;
@@ -213,7 +217,7 @@ FShotgunServerSideRewindResult ULagCompensationComponent::ShotgunConfirmHit(cons
 	//Enable collision for the head first
 	for (auto Frame : FramePackages)
 	{
-		UBoxComponent* HeadBox = Frame.Character->HitBoxes[FName("head")];
+		UBoxComponent* HeadBox = Frame.Character->HitBoxes[FName("HeadSocket")];
 		HeadBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		HeadBox->SetCollisionResponseToChannel(ECC_HitBox, ECollisionResponse::ECR_Block);
 	}
@@ -253,7 +257,7 @@ FShotgunServerSideRewindResult ULagCompensationComponent::ShotgunConfirmHit(cons
 				HitBoxPair.Value->SetCollisionResponseToChannel(ECC_HitBox, ECollisionResponse::ECR_Block);
 			}
 		}
-		UBoxComponent* HeadBox = Frame.Character->HitBoxes[FName("head")];
+		UBoxComponent* HeadBox = Frame.Character->HitBoxes[FName("HeadSocket")];
 		HeadBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 	if (World)

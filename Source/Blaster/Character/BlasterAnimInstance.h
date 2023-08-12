@@ -82,5 +82,11 @@ private:
 	bool bHoldingTheFlag;
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"));
-	FName RightHandBone = FName("hand_r");
+	FName RightHandBone = FName("Hand_R");
+
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"));
+	FRotator RightHandRot = FRotator(0.f, 0.f, -90.f);
+
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"));
+	bool bUseRetargetMesh = false;
 };

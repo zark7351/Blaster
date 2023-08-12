@@ -575,7 +575,7 @@ void ABlasterPlayerController::HandleMatchHasStarted(bool bTeamsMatch)
 			{
 				BlasterHUD->Announcement->SetVisibility(ESlateVisibility::Hidden);
 			}
-			if (!HasAuthority()) return;
+			//if (!HasAuthority()) return;
 			if (bTeamsMatch)
 			{
 				InitTeamScores();

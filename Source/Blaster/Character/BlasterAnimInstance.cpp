@@ -12,6 +12,10 @@ void UBlasterAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
 	BlasterCharacter = Cast<ABlasterCharacter>(TryGetPawnOwner());
+	if (BlasterCharacter)
+	{
+		bUseRetargetMesh = BlasterCharacter->bUseRetargetMesh;
+	}
 }
 
 void UBlasterAnimInstance::NativeUpdateAnimation(float DeltaTime)
@@ -65,9 +69,9 @@ void UBlasterAnimInstance::NativeUpdateAnimation(float DeltaTime)
 		if (BlasterCharacter->IsLocallyControlled())
 		{
 			IsLocallyControlled=true;
-			FTransform RightHandTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("Hand_R"), ERelativeTransformSpace::RTS_World);
+			FTransform RightHandTransform = GetSkelMeshComponent()->GetSocketTransform(RightHandBone, ERelativeTransformSpace::RTS_World);
 			FRotator LookAtRotation= UKismetMathLibrary::FindLookAtRotation(RightHandTransform.GetLocation(), RightHandTransform.GetLocation() + (RightHandTransform.GetLocation() - BlasterCharacter->GetHitTarget()));
-			RightHandRotation = FMath::RInterpTo(RightHandRotation, LookAtRotation, DeltaTime, 15.f);
+			RightHandRotation = FMath::RInterpTo(RightHandRotation, LookAtRotation+RightHandRot, DeltaTime, 15.f);
 		}
 	}
 	bUseFABRIK = BlasterCharacter->GetCombatState() == ECombatState::ECS_Unoccupied;
@@ -78,5 +82,8 @@ void UBlasterAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	}
 	bUseAimOffsets = BlasterCharacter->GetCombatState() == ECombatState::ECS_Unoccupied && !BlasterCharacter->GetDisableGameplay();
 	bTransformRightHand = BlasterCharacter->GetCombatState() == ECombatState::ECS_Unoccupied && !BlasterCharacter->GetDisableGameplay();
-	
+	if (BlasterCharacter)
+	{
+		bUseRetargetMesh = BlasterCharacter->bUseRetargetMesh;
+	}
 }

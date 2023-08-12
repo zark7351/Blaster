@@ -70,6 +70,9 @@ public:
 
 	void SetTeamColor(ETeam Team);
 
+	UPROPERTY(EditAnywhere)
+	bool bUseRetargetMesh = false;
+
 protected:
 	virtual void BeginPlay() override;
 	void MoveForward(float Value);
@@ -316,9 +319,6 @@ private:
 	class UBoxComponent* backpack;
 
 	UPROPERTY(EditAnywhere)
-	class UBoxComponent* blanket;
-
-	UPROPERTY(EditAnywhere)
 	class UBoxComponent* thigh_l;
 
 	UPROPERTY(EditAnywhere)
@@ -345,9 +345,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	USkeletalMeshComponent* RetargetMesh;
-
-	UPROPERTY(EditAnywhere)
-	bool bUseRetargetMesh = false;
 
 	void SetRetargetMesh();
 

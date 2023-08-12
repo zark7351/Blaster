@@ -80,76 +80,72 @@ ABlasterCharacter::ABlasterCharacter()
 	*/
 
 	head=CreateDefaultSubobject<UBoxComponent>(TEXT("head"));
-	head->SetupAttachment(GetMesh(), FName("head"));
-	HitBoxes.Add(FName("head"),head);
+	head->SetupAttachment(GetMesh(), FName("HeadSocket"));
+	HitBoxes.Add(FName("HeadSocket"),head);
 
 	pelvis = CreateDefaultSubobject<UBoxComponent>(TEXT("pelvis"));
-	pelvis->SetupAttachment(GetMesh(), FName("pelvis"));
-	HitBoxes.Add(FName("pelvis"), pelvis);
+	pelvis->SetupAttachment(GetMesh(), FName("PelvisSocket"));
+	HitBoxes.Add(FName("PelvisSocket"), pelvis);
 
 	spine_02 =  CreateDefaultSubobject<UBoxComponent>(TEXT("spine_02"));
-	spine_02->SetupAttachment(GetMesh(), FName("spine_02"));
-	HitBoxes.Add(FName("spine_02"), spine_02);
+	spine_02->SetupAttachment(GetMesh(), FName("Spine2Socket"));
+	HitBoxes.Add(FName("Spine2Socket"), spine_02);
 
 	spine_03 =  CreateDefaultSubobject<UBoxComponent>(TEXT("spine_03"));
-	spine_03->SetupAttachment(GetMesh(), FName("spine_03"));
-	HitBoxes.Add(FName("spine_03"), spine_03);
+	spine_03->SetupAttachment(GetMesh(), FName("Spine3Socket"));
+	HitBoxes.Add(FName("Spine3Socket"), spine_03);
 
 	upperarm_l =  CreateDefaultSubobject<UBoxComponent>(TEXT("upperarm_l"));
-	upperarm_l->SetupAttachment(GetMesh(), FName("upperarm_l"));
-	HitBoxes.Add(FName("upperarm_l"), upperarm_l);
+	upperarm_l->SetupAttachment(GetMesh(), FName("LeftUpperarmSocket"));
+	HitBoxes.Add(FName("LeftUpperarmSocket"), upperarm_l);
 
 	upperarm_r=  CreateDefaultSubobject<UBoxComponent>(TEXT("upperarm_r"));
-	upperarm_r->SetupAttachment(GetMesh(), FName("upperarm_r"));
-	HitBoxes.Add(FName("upperarm_r"), upperarm_r);
+	upperarm_r->SetupAttachment(GetMesh(), FName("RightUpperarmSocket"));
+	HitBoxes.Add(FName("RightUpperarmSocket"), upperarm_r);
 
 	lowerarm_l=  CreateDefaultSubobject<UBoxComponent>(TEXT("lowerarm_l"));
-	lowerarm_l->SetupAttachment(GetMesh(), FName("lowerarm_l"));
-	HitBoxes.Add(FName("lowerarm_l"), lowerarm_l);
+	lowerarm_l->SetupAttachment(GetMesh(), FName("LeftLowerarmSocket"));
+	HitBoxes.Add(FName("LeftLowerarmSocket"), lowerarm_l);
 
 	lowerarm_r =  CreateDefaultSubobject<UBoxComponent>(TEXT("lowerarm_r"));
-	lowerarm_r->SetupAttachment(GetMesh(), FName("lowerarm_r"));
-	HitBoxes.Add(FName("lowerarm_r"), lowerarm_r);
+	lowerarm_r->SetupAttachment(GetMesh(), FName("RightLowerarmSocket"));
+	HitBoxes.Add(FName("RightLowerarmSocket"), lowerarm_r);
 
 	hand_l =  CreateDefaultSubobject<UBoxComponent>(TEXT("hand_l"));
-	hand_l->SetupAttachment(GetMesh(), FName("hand_l"));
-	HitBoxes.Add(FName("hand_l"), hand_l);
+	hand_l->SetupAttachment(GetMesh(), FName("LeftHandSocket"));
+	HitBoxes.Add(FName("LeftHandSocket"), hand_l);
 
 	hand_r =  CreateDefaultSubobject<UBoxComponent>(TEXT("hand_r"));
-	hand_r->SetupAttachment(GetMesh(), FName("hand_r"));
-	HitBoxes.Add(FName("hand_r"), hand_r);
+	hand_r->SetupAttachment(GetMesh(), FName("RightHandSocket"));
+	HitBoxes.Add(FName("RightHandSocket"), hand_r);
 
 	backpack =  CreateDefaultSubobject<UBoxComponent>(TEXT("backpack"));
-	backpack->SetupAttachment(GetMesh(), FName("backpack"));
-	HitBoxes.Add(FName("backpack"), backpack);
-
-	blanket =  CreateDefaultSubobject<UBoxComponent>(TEXT("blanket"));
-	blanket->SetupAttachment(GetMesh(), FName("backpack"));
-	HitBoxes.Add(FName("blanket"), blanket);
+	backpack->SetupAttachment(GetMesh(), FName("BackpackSocket"));
+	HitBoxes.Add(FName("BackpackSocket"), backpack);
 
 	thigh_l =  CreateDefaultSubobject<UBoxComponent>(TEXT("thigh_l"));
-	thigh_l->SetupAttachment(GetMesh(), FName("thigh_l"));
-	HitBoxes.Add(FName("thigh_l"), thigh_l);
+	thigh_l->SetupAttachment(GetMesh(), FName("LeftThighSocket"));
+	HitBoxes.Add(FName("LeftThighSocket"), thigh_l);
 
 	thigh_r =  CreateDefaultSubobject<UBoxComponent>(TEXT("thigh_r"));
-	thigh_r->SetupAttachment(GetMesh(), FName("thigh_r"));
-	HitBoxes.Add(FName("thigh_r"), thigh_r);
+	thigh_r->SetupAttachment(GetMesh(), FName("RightThighSocket"));
+	HitBoxes.Add(FName("RightThighSocket"), thigh_r);
 
 	calf_l =  CreateDefaultSubobject<UBoxComponent>(TEXT("calf_l"));
-	calf_l->SetupAttachment(GetMesh(), FName("calf_l"));
-	HitBoxes.Add(FName("calf_l"), calf_l);
+	calf_l->SetupAttachment(GetMesh(), FName("LeftCalfSocket"));
+	HitBoxes.Add(FName("LeftCalfSocket"), calf_l);
 
 	calf_r =  CreateDefaultSubobject<UBoxComponent>(TEXT("calf_r"));
-	calf_r->SetupAttachment(GetMesh(), FName("calf_r"));
-	HitBoxes.Add(FName("calf_r"), calf_r);
+	calf_r->SetupAttachment(GetMesh(), FName("RightCalfSocket"));
+	HitBoxes.Add(FName("RightCalfSocket"), calf_r);
 
 	foot_l =  CreateDefaultSubobject<UBoxComponent>(TEXT("foot_l"));
-	foot_l->SetupAttachment(GetMesh(), FName("foot_l"));
-	HitBoxes.Add(FName("foot_l"), foot_l);
+	foot_l->SetupAttachment(GetMesh(), FName("LeftFootSocket"));
+	HitBoxes.Add(FName("LeftFootSocket"), foot_l);
 
 	foot_r =  CreateDefaultSubobject<UBoxComponent>(TEXT("foot_r"));
-	foot_r->SetupAttachment(GetMesh(), FName("foot_r"));
-	HitBoxes.Add(FName("foot_r"), foot_r);
+	foot_r->SetupAttachment(GetMesh(), FName("RightFootSocket"));
+	HitBoxes.Add(FName("RightFootSocket"), foot_r);
 
 	for (auto Box : HitBoxes)
 	{
