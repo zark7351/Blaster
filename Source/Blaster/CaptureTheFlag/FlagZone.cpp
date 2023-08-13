@@ -1,23 +1,23 @@
 
 #include "FlagZone.h"
-#include "Components/SphereComponent.h"
+#include "Components/BoxComponent.h"
 #include "Blaster/Weapon/Flag.h"
 #include "Blaster/Gamemode/CTFTeamGameMode.h"
 
 AFlagZone::AFlagZone()
 {
 	PrimaryActorTick.bCanEverTick = false;
-	ZoneSphere = CreateDefaultSubobject<USphereComponent>(TEXT("ZoneSphere"));
-	SetRootComponent(ZoneSphere);
+	Zone = CreateDefaultSubobject<UBoxComponent>(TEXT("Zone"));
+	SetRootComponent(Zone);
 }
 
 void AFlagZone::BeginPlay()
 {
 	Super::BeginPlay();
-	ZoneSphere->OnComponentBeginOverlap.AddDynamic(this, &AFlagZone::OnSphereOverlap);
+	Zone->OnComponentBeginOverlap.AddDynamic(this, &AFlagZone::OnBoxOverlap);
 }
 
-void AFlagZone::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AFlagZone::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AFlag* OverlappingFlag = Cast<AFlag>(OtherActor);
 	if (OverlappingFlag && OverlappingFlag->GetTeam() != Team)

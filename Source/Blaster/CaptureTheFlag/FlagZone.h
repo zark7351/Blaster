@@ -22,7 +22,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	virtual void OnSphereOverlap(
+	virtual void OnBoxOverlap(
 		UPrimitiveComponent* OverlappedComponent,
 		AActor* OtherActor,
 		UPrimitiveComponent* OtherComponent,
@@ -33,7 +33,7 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere)
-	class USphereComponent* ZoneSphere;
+	class UBoxComponent* Zone;
 
 public:	
 
