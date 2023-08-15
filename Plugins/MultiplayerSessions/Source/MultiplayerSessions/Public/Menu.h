@@ -54,4 +54,6 @@ private:
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	FString Map {TEXT("Blaster")};
 	FString PathToLobby{ TEXT("") };
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UClass* DefaultPawnClass;
 };
