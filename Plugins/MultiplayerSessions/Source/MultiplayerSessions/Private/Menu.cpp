@@ -180,11 +180,6 @@ void UMenu::HostButtonClicked()
 	HostButton->SetIsEnabled(false);
 	if (MultiplayerSessionsSubsystem)
 	{
-		APlayerController* Controller = GetWorld()->GetFirstPlayerController();
-		if (Controller)
-		{
-			MultiplayerSessionsSubsystem->PlayerCharacterMap.Add(Controller, DefaultPawnClass);
-		}
 		MultiplayerSessionsSubsystem->CreateSession(NumPublicConnections, MatchType, Map);
 	}
 }
@@ -194,11 +189,6 @@ void UMenu::JoinButtonClicked()
 	JoinButton->SetIsEnabled(false);
 	if (MultiplayerSessionsSubsystem)
 	{
-		APlayerController* Controller = GetWorld()->GetFirstPlayerController();
-		if (Controller)
-		{
-			MultiplayerSessionsSubsystem->PlayerCharacterMap.Add(Controller, DefaultPawnClass);
-		}
 		MultiplayerSessionsSubsystem->FindSessions(10000);
 	}
 }

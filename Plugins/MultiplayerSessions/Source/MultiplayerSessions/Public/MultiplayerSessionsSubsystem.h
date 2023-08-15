@@ -74,6 +74,4 @@ public:
 
 	FString DesiredMatchType{};
 	FString DesiredMap{};
-	UPROPERTY(BlueprintReadOnly)
-	TMap<AController*, UClass*> PlayerCharacterMap;
 };

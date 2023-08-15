@@ -567,6 +567,10 @@ void ABlasterPlayerController::HandleMatchHasStarted(bool bTeamsMatch)
 	if(HasAuthority()) bShowTeamScores = bTeamsMatch;
 	if (MatchState == MatchState::InProgress)
 	{
+		FInputModeGameOnly InputModeData;
+		SetInputMode(InputModeData);
+		SetShowMouseCursor(false);
+
 		BlasterHUD = BlasterHUD == nullptr ? Cast<ABlasterHUD>(GetHUD()) : BlasterHUD;
 		if (BlasterHUD)
 		{
