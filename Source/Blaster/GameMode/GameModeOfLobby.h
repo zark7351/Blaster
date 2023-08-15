@@ -17,5 +17,6 @@ class BLASTER_API AGameModeOfLobby : public AGameMode
 public:
 	virtual void PostLogin(APlayerController* NewPlayer)override;
 
-	
+	UPROPERTY(BlueprintReadOnly)
+	class UMultiplayerSessionsSubsystem* MultiplayerSessionsSubsystem=nullptr;
 };

@@ -47,6 +47,8 @@ public:
 
 	void BroadcastElim(APlayerState* Attacker,APlayerState* Victim);
 
+	UClass* CharacterClass;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
