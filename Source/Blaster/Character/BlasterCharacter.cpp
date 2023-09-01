@@ -75,6 +75,8 @@ ABlasterCharacter::ABlasterCharacter()
 	AttachedGrenade->SetupAttachment(GetMesh(), FName("GrenadeSocket"));
 	AttachedGrenade->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
+	SkirtMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Skirt"));
+	SkirtMesh->SetupAttachment(GetMesh());
 	/*
 	* Hit boxes for server-side rewind
 	*/
@@ -905,6 +907,7 @@ void ABlasterCharacter::HideCharacterIfCameraClose()
 	if ((FollowCamera->GetComponentLocation()-GetActorLocation()).Size()<CameraThreshold)
 	{
 		GetRetargetMesh()->SetVisibility(false);
+		SkirtMesh->SetVisibility(false);
 		if (Combat && Combat->EquippedWeapon && Combat->EquippedWeapon->GetWeaponMesh())
 		{
 			Combat->EquippedWeapon->GetWeaponMesh()->SetOwnerNoSee(true);
@@ -917,6 +920,7 @@ void ABlasterCharacter::HideCharacterIfCameraClose()
 	else
 	{
 		GetRetargetMesh()->SetVisibility(true);
+		SkirtMesh->SetVisibility(true);
 		if (Combat && Combat->EquippedWeapon && Combat->EquippedWeapon->GetWeaponMesh())
 		{
 			Combat->EquippedWeapon->GetWeaponMesh()->SetOwnerNoSee(false);
