@@ -59,8 +59,14 @@ void UOverHeadWidget::ShowPLayerName(APawn* InPawn)
 	}
 }
 
-void UOverHeadWidget::OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)
+void UOverHeadWidget::NativeDestruct()
 {
 	RemoveFromParent();
-	Super::OnLevelRemovedFromWorld(InLevel, InWorld);
+	Super::NativeDestruct();
 }
+
+//void UOverHeadWidget::OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)
+//{
+//	RemoveFromParent();
+//	Super::OnLevelRemovedFromWorld(InLevel, InWorld);
+//}

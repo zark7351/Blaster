@@ -22,7 +22,8 @@ public:
 
 protected:
 	virtual bool Initialize() override;
-	virtual void OnLevelRemovedFromWorld(ULevel* InLevel,UWorld* InWorld)override;
+	//virtual void OnLevelRemovedFromWorld(ULevel* InLevel,UWorld* InWorld)override;
+	virtual void NativeDestruct() override;
 	UFUNCTION()
 	void OnCreateSession(bool bWasSuccessful);
 	void OnFindSession(const TArray<FOnlineSessionSearchResult>& SessionResults, bool bWasSuccessful);

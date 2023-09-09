@@ -28,5 +28,6 @@ public:
 	void ShowPLayerName(APawn* InPawn);
 
 protected:
-	virtual void OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)override;
+	//virtual void OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)override;
+	virtual void NativeDestruct() override;
 };
