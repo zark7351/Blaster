@@ -42,6 +42,9 @@ public:
 	void SetHUDAmmo();
 	void ShowPickupWidget(bool bShowWidget);
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class APickup>AmmoPickupClass;
+
 
 	//Textures fot the weapon crosshairs
 

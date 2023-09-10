@@ -15,11 +15,15 @@ public:
 	APickupSpawnPoint();
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<class APickup>> PickupClasses;
+
+	UPROPERTY(EditAnywhere)
+	bool bShouldSpawnOnBegin = false;
+
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere)
-	TArray<TSubclassOf<class APickup>> PickupClasses;
 
 	void SpawnPickup();
 	void SpawnPickupTimerFinished();
@@ -32,12 +36,13 @@ protected:
 private:
 	FTimerHandle SpawnPickupTimer;
 
+public:	
 	UPROPERTY(EditAnywhere)
 	float SpawnPickupTimeMin;
 
 	UPROPERTY(EditAnywhere)
 	float SpawnPickupTimeMax;
 
-public:	
-
+	UPROPERTY()
+	USceneComponent* Root;
 };

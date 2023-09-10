@@ -6,6 +6,8 @@
 
 APickupSpawnPoint::APickupSpawnPoint()
 {
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	SetRootComponent(Root);
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
 }
@@ -13,6 +15,10 @@ APickupSpawnPoint::APickupSpawnPoint()
 void APickupSpawnPoint::BeginPlay()
 {
 	Super::BeginPlay();
+	if (bShouldSpawnOnBegin && HasAuthority())
+	{
+		SpawnPickup();
+	}
 	StartSpawnPickupTimer((AActor*)nullptr);
 }
 
