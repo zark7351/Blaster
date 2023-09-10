@@ -26,4 +26,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	TArray<TSubclassOf<class AWeapon>>WeaponClasses;
 
+private:
+
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent* RootPoint;
+
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent* AmmoSpawnPoint;
+
 };

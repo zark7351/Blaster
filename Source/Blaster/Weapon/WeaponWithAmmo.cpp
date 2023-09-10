@@ -10,6 +10,11 @@
 
 AWeaponWithAmmo::AWeaponWithAmmo()
 {
+	RootPoint = CreateDefaultSubobject<USceneComponent>(TEXT("RootPoint"));
+	SetRootComponent(RootPoint);
+	AmmoSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("AmmoSpawnPoint"));
+	AmmoSpawnPoint->SetupAttachment(RootComponent);
+	AmmoSpawnPoint->AddRelativeLocation(FVector(200.f, 0.f, 0.f));
 	PrimaryActorTick.bCanEverTick = false;
 }
 
