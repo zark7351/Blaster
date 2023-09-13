@@ -126,9 +126,11 @@ void UMenu::OnFindSession(const TArray<FOnlineSessionSearchResult>& SessionResul
 	}
 	for (FOnlineSessionSearchResult Result : SessionResults)
 	{
-		FString SettingsValue;
-		Result.Session.SessionSettings.Get(FName("MatchType"), SettingsValue);
-		if (SettingsValue==MatchType)
+		FString MatchTypeValue;
+		Result.Session.SessionSettings.Get(FName("MatchType"), MatchTypeValue);
+		FString MapValue;
+		Result.Session.SessionSettings.Get(FName("Map"), MapValue);
+		if (MatchTypeValue == MatchType && MapValue == Map)
 		{
 			MultiplayerSessionsSubsystem->JoinSession(Result);
 			return;
