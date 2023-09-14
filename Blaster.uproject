@@ -25,10 +25,6 @@
 		{
 			"Name": "VRM4U",
 			"Enabled": true
-		},
-		{
-			"Name": "PCG",
-			"Enabled": true
 		}
 	]
 }

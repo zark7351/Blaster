@@ -39,7 +39,7 @@ void AWeaponWithAmmo::SpawnWeaponWithAmmo()
 				Ammo->SpawnPickupTimeMin = 10.f;
 				Ammo->SpawnPickupTimeMax = 100.f;
 				Ammo->PickupClasses.Add(SpawnedWeapon->AmmoPickupClass);
-				FTransform Trans = FTransform(FRotator(), GetActorLocation() + FVector(200.f, 0.f, 0.f), FVector(1.f, 1.f, 1.f));
+				FTransform Trans = AmmoSpawnPoint->GetComponentTransform();
 				Ammo->FinishSpawning(Trans);
 				Ammo->SetActorTransform(Trans);
 			}

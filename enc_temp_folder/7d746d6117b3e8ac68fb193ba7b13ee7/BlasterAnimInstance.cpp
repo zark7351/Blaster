@@ -30,8 +30,7 @@ void UBlasterAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	Velocity.Z = 0.f;
 	Speed = Velocity.Size();
 	bIsInAir = BlasterCharacter->GetCharacterMovement()->IsFalling();
-	//bIsAccelerating = BlasterCharacter->GetCharacterMovement()->GetCurrentAcceleration().Size() > 0.f ? true : false;
-	bIsAccelerating = BlasterCharacter->GetCharacterMovement()->GetCurrentAcceleration().Size()>0.f|| BlasterCharacter->GetCharacterMovement()->Velocity.Size()>0.f;//AI移动中没有Acceleration，所以直接用速度判断
+	bIsAccelerating = BlasterCharacter->GetCharacterMovement()->GetCurrentAcceleration().Size() > 0.f ? true : false;
 	bWeaponEquipped = BlasterCharacter->IsWeaponEquipped();
 	EquippedWeapon = BlasterCharacter->GetEquippedWeapon();
 	bIsCrouched = BlasterCharacter->bIsCrouched;
