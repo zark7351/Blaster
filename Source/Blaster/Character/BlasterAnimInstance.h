@@ -86,7 +86,4 @@ private:
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"));
 	FRotator RightHandRot = FRotator(0.f, 0.f, -90.f);
-
-	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"));
-	bool bUseRetargetMesh = false;
 };

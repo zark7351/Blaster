@@ -341,9 +341,9 @@ void ULagCompensationComponent::ResetHitBoxes(ABlasterCharacter* HitCharacter, c
 
 void ULagCompensationComponent::EnableCharacterMeshCollision(ABlasterCharacter* HitCharacter, ECollisionEnabled::Type CollisionEnabled)
 {
-	if (HitCharacter && HitCharacter->GetRetargetMesh())
+	if (HitCharacter && HitCharacter->GetMesh())
 	{
-		HitCharacter->GetRetargetMesh()->SetCollisionEnabled(CollisionEnabled);
+		HitCharacter->GetMesh()->SetCollisionEnabled(CollisionEnabled);
 	}
 }
 
