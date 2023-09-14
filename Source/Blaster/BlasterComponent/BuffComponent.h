@@ -15,8 +15,6 @@ class BLASTER_API UBuffComponent : public UActorComponent
 public:	
 	UBuffComponent();
 	friend class ABlasterCharacter;
-	friend class ABlasterCharacterBase;
-
 	void Heal(float HealAmount ,float HealingTime);
 	void ReplenishShield(float ShieldAmount, float ReplenishTime);
 	void BuffSpeed(float BuffBaseSpeed, float BuffCrouchSpeed,float BuffJumpZVelocity, float BuffTime);

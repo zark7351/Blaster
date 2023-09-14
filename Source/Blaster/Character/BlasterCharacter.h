@@ -3,8 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-//#include "GameFramework/Character.h"
-#include "BlasterCharacterBase.h"
+#include "GameFramework/Character.h"
 #include "Blaster/BlasterTypes/TurningInPlace.h"
 #include "Blaster/Interfaces/InteractWithCrosshairsInterface.h"
 #include "Components/TimelineComponent.h"
@@ -15,7 +14,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnleftGame);
 
 UCLASS()
-class BLASTER_API ABlasterCharacter : public ABlasterCharacterBase, public IInteractWithCrosshairsInterface
+class BLASTER_API ABlasterCharacter : public ACharacter, public IInteractWithCrosshairsInterface
 {
 	GENERATED_BODY()
 
@@ -195,7 +194,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float ElimDelay=3.f;
 
-	virtual void ElimTimerFinished() override;
+	void ElimTimerFinished();
 
 	bool bLeftGame = false;
 
@@ -334,11 +333,11 @@ private:
 	UPROPERTY(EditAnywhere)
 	class UBoxComponent* foot_r;
 
-	UPROPERTY(EditAnywhere)
-	USkeletalMeshComponent* SkirtMesh;
-
 	UPROPERTY()
 	class ABlasterGameMode* BlasterGameMode;
+
+	UPROPERTY(EditAnywhere)
+	USkeletalMeshComponent* SkirtMesh;
 
 public:	
 
