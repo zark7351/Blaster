@@ -409,41 +409,41 @@ void UCombatComponent::DropEquippedWeapon()
 
 void UCombatComponent::AttachActorToRightHand(AActor* ActorToAttach)
 {
-	if (Character == nullptr || Character->GetRetargetMesh() == nullptr || ActorToAttach == nullptr) return;
-	const USkeletalMeshSocket* HandSocket = Character->GetRetargetMesh()->GetSocketByName(FName("RightHandSocket"));
+	if (Character == nullptr || Character->GetMesh() == nullptr || ActorToAttach == nullptr) return;
+	const USkeletalMeshSocket* HandSocket = Character->GetMesh()->GetSocketByName(FName("RightHandSocket"));
 	if (HandSocket)
 	{
-		HandSocket->AttachActor(ActorToAttach, Character->GetRetargetMesh());
+		HandSocket->AttachActor(ActorToAttach, Character->GetMesh());
 	}
 }
 
 void UCombatComponent::AttachActorToLeftHand(AActor* ActorToAttach)
 {
-	if (Character == nullptr || Character->GetRetargetMesh() == nullptr || ActorToAttach == nullptr) return;
-	const USkeletalMeshSocket* HandSocket = Character->GetRetargetMesh()->GetSocketByName(FName("LeftHandSocket"));
+	if (Character == nullptr || Character->GetMesh() == nullptr || ActorToAttach == nullptr) return;
+	const USkeletalMeshSocket* HandSocket = Character->GetMesh()->GetSocketByName(FName("LeftHandSocket"));
 	if (HandSocket)
 	{
-		HandSocket->AttachActor(ActorToAttach, Character->GetRetargetMesh());
+		HandSocket->AttachActor(ActorToAttach, Character->GetMesh());
 	}
 }
 
 void UCombatComponent::AttachFlagToLeftHand(AWeapon* TheFlag)
 {
-	if (Character == nullptr || Character->GetRetargetMesh() == nullptr || Flag == nullptr) return;
-	const USkeletalMeshSocket* FlagSocket = Character->GetRetargetMesh()->GetSocketByName(FName("FlagSocket"));
+	if (Character == nullptr || Character->GetMesh() == nullptr || Flag == nullptr) return;
+	const USkeletalMeshSocket* FlagSocket = Character->GetMesh()->GetSocketByName(FName("FlagSocket"));
 	if (FlagSocket)
 	{
-		FlagSocket->AttachActor(Flag, Character->GetRetargetMesh());
+		FlagSocket->AttachActor(Flag, Character->GetMesh());
 	}
 }
 
 void UCombatComponent::AttachActorToBackpack(AActor* ActorToAttach)
 {
-	if (Character == nullptr || Character->GetRetargetMesh() == nullptr || ActorToAttach == nullptr) return;
-	const USkeletalMeshSocket* BackpackSocket = Character->GetRetargetMesh()->GetSocketByName(FName("BackpackSocket"));
+	if (Character == nullptr || Character->GetMesh() == nullptr || ActorToAttach == nullptr) return;
+	const USkeletalMeshSocket* BackpackSocket = Character->GetMesh()->GetSocketByName(FName("BackpackSocket"));
 	if (BackpackSocket)
 	{
-		BackpackSocket->AttachActor(ActorToAttach, Character->GetRetargetMesh());
+		BackpackSocket->AttachActor(ActorToAttach, Character->GetMesh());
 	}
 }
 

@@ -430,7 +430,10 @@ void ABlasterCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	RotateInplace(DeltaTime);
-	HideCharacterIfCameraClose();
+	if (FollowCamera)
+	{
+		HideCharacterIfCameraClose();
+	}
 	PollInit();
 }
 
