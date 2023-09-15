@@ -46,13 +46,21 @@ public:
 
 	bool bLocallyReloading = false;
 
+	UFUNCTION(BlueprintCallable)
+	void Fire();
+
+	/*
+	* AI
+	*/
+	UPROPERTY(BlueprintReadWrite)
+	bool bHasTarget;
+
 protected:
 	virtual void BeginPlay() override;
 	void SetAiming(bool bIsAming);
 	UFUNCTION(Server, Reliable)
 	void ServerSetAiming(bool bIsAming);
 
-	void Fire();
 	void FireProjectileWeapon();
 	void FireHitScanWeapon();
 	void FireShotgun();
@@ -68,8 +76,8 @@ protected:
 	void LocalShotgunFire(const TArray<FVector_NetQuantize>& TraceHitResults);
 
 	void TraceUnderCrosshairs(FHitResult& TraceHitResult);
-	void SetHitTarget();
-
+	UFUNCTION()
+	void AiAimFront();
 	void SetHUDCrosshairs(float DeltaTime);
 	void EquipWeapon(class AWeapon* WeaponToEquip);
 	void SwapWeapons();
@@ -142,6 +150,7 @@ private:
 	float CrosshairAimFactor;
 	float CrosshairShootingFactor;
 
+	UPROPERTY(BlueprintReadWrite,meta=(AllowPrivateAccess="true"))
 	FVector HitTarget;
 	FHUDPackage HUDPackage;
 	

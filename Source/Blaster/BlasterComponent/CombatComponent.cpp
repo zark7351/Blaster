@@ -87,7 +87,10 @@ void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 		}
 		else
 		{
-			
+			if (!bHasTarget)
+			{
+				AiAimFront();
+			}
 		}
 	}
 }
@@ -224,9 +227,10 @@ void UCombatComponent::FireHitScanWeapon()
 {
 	if (EquippedWeapon && Character)
 	{
-		HitTarget = EquippedWeapon->bUseScatter ? EquippedWeapon->TranceEndWithScatter(HitTarget):HitTarget;
-		if (!Character->HasAuthority()) LocalFire(HitTarget);
-		ServerFire(HitTarget);
+		FVector FinalHitTarget;
+		FinalHitTarget = EquippedWeapon->bUseScatter ? EquippedWeapon->TranceEndWithScatter(HitTarget):HitTarget;
+		if (!Character->HasAuthority()) LocalFire(FinalHitTarget);
+		ServerFire(FinalHitTarget);
 	}
 }
 
@@ -803,7 +807,7 @@ void UCombatComponent::TraceUnderCrosshairs(FHitResult& TraceHitResult)
 	}
 }
 
-void UCombatComponent::SetHitTarget()
+void UCombatComponent::AiAimFront()
 {
 	if (Character)
 	{
