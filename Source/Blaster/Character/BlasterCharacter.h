@@ -70,6 +70,9 @@ public:
 
 	void SetTeamColor(ETeam Team);
 
+	UPROPERTY(EditAnywhere)
+	bool IsAI;
+
 protected:
 	virtual void BeginPlay() override;
 	void MoveForward(float Value);
@@ -102,7 +105,7 @@ protected:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CalmeraBoom;
+	class USpringArmComponent* CameraBoom;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;

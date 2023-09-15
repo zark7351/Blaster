@@ -74,13 +74,21 @@ void UCombatComponent::BeginPlay()
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (Character->IsLocallyControlled()) {
-		FHitResult HitResult;
-		TraceUnderCrosshairs(HitResult);
-		HitTarget = HitResult.ImpactPoint;
+	if (Character->IsLocallyControlled()) 
+	{
+		if (!Character->IsAI)
+		{
+			FHitResult HitResult;
+			TraceUnderCrosshairs(HitResult);
+			HitTarget = HitResult.ImpactPoint;
 
-		InterpFOV(DeltaTime);
-		SetHUDCrosshairs(DeltaTime);
+			InterpFOV(DeltaTime);
+			SetHUDCrosshairs(DeltaTime);
+		}
+		else
+		{
+			
+		}
 	}
 }
 
@@ -792,6 +800,15 @@ void UCombatComponent::TraceUnderCrosshairs(FHitResult& TraceHitResult)
 		{
 			HUDPackage.CrosshairColor = FLinearColor::White;
 		}
+	}
+}
+
+void UCombatComponent::SetHitTarget()
+{
+	if (Character)
+	{
+		FVector Direction = Character->GetActorTransform().GetUnitAxis(EAxis::X);
+		HitTarget = Character->GetActorLocation() + Direction * TRACE_LENGTH;
 	}
 }
 

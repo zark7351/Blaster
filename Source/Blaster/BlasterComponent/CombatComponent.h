@@ -68,6 +68,7 @@ protected:
 	void LocalShotgunFire(const TArray<FVector_NetQuantize>& TraceHitResults);
 
 	void TraceUnderCrosshairs(FHitResult& TraceHitResult);
+	void SetHitTarget();
 
 	void SetHUDCrosshairs(float DeltaTime);
 	void EquipWeapon(class AWeapon* WeaponToEquip);
