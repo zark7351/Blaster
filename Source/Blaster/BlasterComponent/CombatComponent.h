@@ -29,7 +29,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void FinishSwapAttachWeapons();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void FireButtonPressed(bool bPressed);
 
 	UFUNCTION(BlueprintCallable)
@@ -119,7 +119,7 @@ private:
 	UPROPERTY()
 	class ABlasterHUD* HUD;
 
-	UPROPERTY(ReplicatedUsing = OnRep_EquippedWeapon)
+	UPROPERTY(ReplicatedUsing = OnRep_EquippedWeapon,BlueprintReadOnly,meta=(AllowPrivateAccess="true"))
 	AWeapon* EquippedWeapon;
 
 	UPROPERTY(ReplicatedUsing = OnRep_SecondaryWeapon)

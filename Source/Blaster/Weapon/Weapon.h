@@ -71,7 +71,7 @@ public:
 	/*
 	* Automatic Fire
 	*/
-	UPROPERTY(EditAnywhere, Category = Combat)
+	UPROPERTY(EditAnywhere, Category = Combat,BlueprintReadWrite)
 		bool bAutomatic = true;
 
 	UPROPERTY(EditAnywhere, Category = Combat)
@@ -211,6 +211,7 @@ public:
 	FORCEINLINE float GetZoomInterpSpeed()const { return ZoomInterpSpeed; }
 	bool IsEmpty();
 	bool IsFull();
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE EWeaponType GetWeaponType()const { return WeaponType; }
 	FORCEINLINE int32 GetAmmo() const { return Ammo; }
 	FORCEINLINE int32 GetMagCapacity() const { return MagCapacity; }
