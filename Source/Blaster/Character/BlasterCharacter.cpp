@@ -741,7 +741,10 @@ void ABlasterCharacter::AimOffset(float DeltaTime)
 	{
 		bRotateRootBone = false;
 		StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
-		AO_Yaw = 0.f;
+		if (!IsAI)
+		{
+			AO_Yaw = 0.f;
+		}
 		bUseControllerRotationYaw = true;
 		TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 	}

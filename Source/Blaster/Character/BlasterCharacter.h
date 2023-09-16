@@ -89,8 +89,10 @@ protected:
 	void CalculateAO_Pitch();
 	void SimProxiesTurn();
 	virtual void Jump()override;
+	UFUNCTION(BlueprintCallable)
 	void FireButtonPressed();
 	void PlayHitReactMontage();
+	UFUNCTION(BlueprintCallable)
 	void FireButtonReleased();
 	UFUNCTION()
 	void ReceiveDamage(AActor* DamageActor, float Damage,const UDamageType* DamageType,class AController* InstigatorController,AActor* DamageCauser);
@@ -128,10 +130,11 @@ private:
 
 	UFUNCTION(Server,Reliable)
 	void ServerEquipButtonPressed();
-
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	float AO_Yaw;
 	float Interp_AO_Yaw;
 	float AO_Pitch;
+	UPROPERTY(BlueprintReadOnly,meta=(AllowPrivateAccess="true"))
 	FRotator StartingAimRotation;
 
 	ETurningInPlace TurningInPlace;
@@ -375,4 +378,5 @@ public:
 	FORCEINLINE bool IsHoldingTheFlag()const;
 	ETeam GetTeam();
 	void SetHoldingTheFlag(bool bHolding);
+	FORCEINLINE void SetDefaultWeaponClass(TSubclassOf<AWeapon> NewWeaponClass) { DefaultWeaponClass = NewWeaponClass; }
 };

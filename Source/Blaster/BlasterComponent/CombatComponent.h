@@ -29,7 +29,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void FinishSwapAttachWeapons();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void FireButtonPressed(bool bPressed);
 
 	UFUNCTION(BlueprintCallable)
