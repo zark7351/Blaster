@@ -60,6 +60,20 @@ void AProjectileBullet::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherAc
 				);
 			}
 		}
+		else
+		{
+			AController* Controller = Cast<AController>(OwnerCharacter->Controller);
+			if (Controller)
+			{
+				const float DamangeToCause = Hit.BoneName.ToString() == FString("head") ? HeadShotDamage : Damage;
+				if (OwnerCharacter->HasAuthority())
+				{
+					UGameplayStatics::ApplyDamage(OtherActor, DamangeToCause, OwnerController, this, UDamageType::StaticClass());
+					Super::OnHit(HitComponent, OtherActor, OtherComp, NormalImpulse, Hit);
+					return;
+				}
+			}
+		}
 	}
 	Super::OnHit(HitComponent, OtherActor, OtherComp, NormalImpulse, Hit);
 }
