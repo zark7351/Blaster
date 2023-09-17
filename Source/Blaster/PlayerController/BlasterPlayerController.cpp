@@ -10,6 +10,7 @@
 #include "Blaster/Character/BlasterCharacter.h"
 #include "Net/UnrealNetwork.h"
 #include "Blaster/GameMode/BlasterGameMode.h"
+#include "Blaster//GameMode/SinglePlayerGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Blaster/BlasterComponent/CombatComponent.h"
 #include "Blaster/GameState/BlasterGameState.h"
@@ -52,6 +53,15 @@ void ABlasterPlayerController::ClientElimAnnouncement_Implementation(APlayerStat
 				return;
 			}
 			BlasterHUD->AddElimAnnouncement(Attacker->GetPlayerName(), Victim->GetPlayerName());
+		}
+	}
+	if (Attacker && !Victim && Self)
+	{
+		BlasterHUD = BlasterHUD == nullptr ? Cast<ABlasterHUD>(GetHUD()) : BlasterHUD;
+		ASinglePlayerGameMode* GameMode = Cast<ASinglePlayerGameMode>(UGameplayStatics::GetGameMode(this));
+		if (GameMode)
+		{
+			BlasterHUD->AddElimAnnouncement(FString(), FString(),GameMode->GetCurrentEnemies());
 		}
 	}
 }

@@ -17,6 +17,7 @@ class BLASTER_API UElimAnnouncement : public UUserWidget
 public:
 
 	void SetAnnouncementText(const FString& AttackerName, const FString& VictimName);
+	void SetAnnouncementText(int32 EnemiesLeft);
 
 	UPROPERTY(meta = (BindWidget))
 	class UHorizontalBox* AnnouncementBox;

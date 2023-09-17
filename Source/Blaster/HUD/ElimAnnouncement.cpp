@@ -12,3 +12,12 @@ void UElimAnnouncement::SetAnnouncementText(const FString& AttackerName, const F
 		AnnouncementText->SetText(FText::FromString(ElimAnnouncementText));
 	}
 }
+
+void UElimAnnouncement::SetAnnouncementText(int32 EnemiesLeft)
+{
+	FString ElimAnnouncementText = FString::Printf(TEXT("You Elimde an enemy! %d enemies left!"), EnemiesLeft);
+	if (AnnouncementText)
+	{
+		AnnouncementText->SetText(FText::FromString(ElimAnnouncementText));
+	}
+}

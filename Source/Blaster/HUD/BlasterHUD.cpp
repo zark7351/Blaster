@@ -74,7 +74,7 @@ void ABlasterHUD::AddAnnouncement()
 	}
 }
 
-void ABlasterHUD::AddElimAnnouncement(const FString& Attacker, const FString& Victim)
+void ABlasterHUD::AddElimAnnouncement(const FString& Attacker, const FString& Victim,int32 EnemiesLeft)
 {
 	OwningPlayer = OwningPlayer == nullptr ? GetOwningPlayerController() : OwningPlayer;
 	if (OwningPlayer && ElimAnnouncementClass)
@@ -82,7 +82,9 @@ void ABlasterHUD::AddElimAnnouncement(const FString& Attacker, const FString& Vi
 		UElimAnnouncement* ElimAnnouncementWidget = CreateWidget<UElimAnnouncement>(OwningPlayer, ElimAnnouncementClass);
 		if (ElimAnnouncementWidget)
 		{
-			ElimAnnouncementWidget->SetAnnouncementText(Attacker, Victim);
+			if (EnemiesLeft >0) ElimAnnouncementWidget->SetAnnouncementText(EnemiesLeft);
+			else ElimAnnouncementWidget->SetAnnouncementText(Attacker, Victim);
+			
 			ElimAnnouncementWidget->AddToViewport();
 
 			for (UElimAnnouncement* Msg : ElimMessages)
@@ -98,10 +100,6 @@ void ABlasterHUD::AddElimAnnouncement(const FString& Attacker, const FString& Vi
 					}
 				}
 			}
-
-
-
-
 			ElimMessages.Add(ElimAnnouncementWidget);
 
 			FTimerHandle ElimMsgTimer;
