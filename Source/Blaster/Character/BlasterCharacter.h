@@ -70,7 +70,7 @@ public:
 
 	void SetTeamColor(ETeam Team);
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool IsAI;
 
 protected:
