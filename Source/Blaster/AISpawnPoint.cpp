@@ -15,7 +15,10 @@ AAISpawnPoint::AAISpawnPoint()
 void AAISpawnPoint::BeginPlay()
 {
 	Super::BeginPlay();
-	SpawnAI();
+	if (Active)
+	{
+		SpawnAI();
+	}
 }
 
 void AAISpawnPoint::Tick(float DeltaTime)

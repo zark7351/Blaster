@@ -12,4 +12,7 @@ namespace Announcement
 	const FString BlueTeam(TEXT("Blue team"));
 	const FString RedTeamWins(TEXT("Red team wins"));
 	const FString BlueTeamWins(TEXT("Blue team wins"));
+
+	const FString YouWin(TEXT("You win!"));
+	const FString YouLose(TEXT("You lose!"));
 }

@@ -14,6 +14,9 @@ class BLASTER_API AAISpawnPoint : public AActor
 public:	
 	AAISpawnPoint();
 
+	UPROPERTY(EditAnywhere)
+	bool Active = true;
+
 protected:
 	virtual void BeginPlay() override;
 
