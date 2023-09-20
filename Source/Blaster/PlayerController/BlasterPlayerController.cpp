@@ -18,6 +18,7 @@
 #include "Components/Image.h"
 #include "Blaster/HUD/ReturnToMainMenu.h"
 #include "Blaster/BlasterTypes/Announcement.h"
+#include "Blaster//GameMode/SinglePlayerGameMode.h"
 
 void ABlasterPlayerController::BroadcastElim(APlayerState* Attacker, APlayerState* Victim)
 {
@@ -547,12 +548,12 @@ void ABlasterPlayerController::ReceivedPlayer()
 	}
 }
 
-void ABlasterPlayerController::OnMatchStateSet(FName State,bool bTeamsMatch)
+void ABlasterPlayerController::OnMatchStateSet(FName State, bool bSingleMode, bool bTeamsMatch)
 {
 	MatchState = State;
 	if (MatchState==MatchState::InProgress)
 	{
-		HandleMatchHasStarted(bTeamsMatch);
+		HandleMatchHasStarted(bSingleMode,bTeamsMatch);
 	}
 	else if (MatchState == MatchState::Cooldown)
 	{
@@ -572,9 +573,10 @@ void ABlasterPlayerController::OnRep_MatchState()
 	}
 }
 
-void ABlasterPlayerController::HandleMatchHasStarted(bool bTeamsMatch)
+void ABlasterPlayerController::HandleMatchHasStarted(bool bSingleMode, bool bTeamsMatch)
 {
 	if(HasAuthority()) bShowTeamScores = bTeamsMatch;
+	bShowSingleScore = bSingleMode;
 	if (MatchState == MatchState::InProgress)
 	{
 		FInputModeGameOnly InputModeData;
@@ -622,7 +624,9 @@ void ABlasterPlayerController::HandleCooldown()
 				if (BlasterGameState && BlasterPlayerState)
 				{
 					TArray<ABlasterPlayerState*>TopPlayers = BlasterGameState->TopScoringPlayers;
-					FString InfoTextString = bShowTeamScores?GetTeamsInfoText(BlasterGameState): GetInfoText(TopPlayers);
+					FString InfoTextString;
+					if (bShowSingleScore) InfoTextString = GetSingleInfoText();
+					else InfoTextString = bShowTeamScores?GetTeamsInfoText(BlasterGameState): GetInfoText(TopPlayers);
 
 					BlasterHUD->Announcement->InfoText->SetText(FText::FromString(InfoTextString));
 				}
@@ -700,6 +704,24 @@ FString ABlasterPlayerController::GetTeamsInfoText(ABlasterGameState* BlasterGam
 		InfoTextString.Append(TEXT("\n"));
 		InfoTextString.Append(FString::Printf(TEXT("%s£º %d\n"), *Announcement::BlueTeam, BlueTeamScore));
 		InfoTextString.Append(FString::Printf(TEXT("%s£º %d\n"), *Announcement::RedTeam, RedTeamScore));
+	}
+	return InfoTextString;
+}
+
+FString ABlasterPlayerController::GetSingleInfoText()
+{
+	FString InfoTextString;
+	ASinglePlayerGameMode* GameMode = Cast<ASinglePlayerGameMode>(UGameplayStatics::GetGameMode(this));
+	if (GameMode)
+	{
+		if (GameMode->GetCurrentEnemies()<=0)
+		{
+			InfoTextString = Announcement::YouWin;
+		}
+		else
+		{
+			InfoTextString = Announcement::YouLose;
+		}
 	}
 	return InfoTextString;
 }

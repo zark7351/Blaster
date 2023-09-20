@@ -82,7 +82,7 @@ void ABlasterHUD::AddElimAnnouncement(const FString& Attacker, const FString& Vi
 		UElimAnnouncement* ElimAnnouncementWidget = CreateWidget<UElimAnnouncement>(OwningPlayer, ElimAnnouncementClass);
 		if (ElimAnnouncementWidget)
 		{
-			if (EnemiesLeft >0) ElimAnnouncementWidget->SetAnnouncementText(EnemiesLeft);
+			if (EnemiesLeft >= 0) ElimAnnouncementWidget->SetAnnouncementText(EnemiesLeft);
 			else ElimAnnouncementWidget->SetAnnouncementText(Attacker, Victim);
 			
 			ElimAnnouncementWidget->AddToViewport();

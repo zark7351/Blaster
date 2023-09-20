@@ -36,8 +36,8 @@ public:
 	virtual float GetServerTime(); //Synced with server world clock
 	virtual void ReceivedPlayer() override; //Synced with server world clock as soon as possible
 
-	void OnMatchStateSet(FName State, bool bTeamsMatch=false);
-	void HandleMatchHasStarted(bool bTeamsMatch = false);
+	void OnMatchStateSet(FName State, bool bSingleMode=false, bool bTeamsMatch=false);
+	void HandleMatchHasStarted(bool bSingleMode=false, bool bTeamsMatch = false);
 	void HandleCooldown();
 
 	float SingleTripTime = 0.f;
@@ -96,11 +96,13 @@ protected:
 
 	UPROPERTY(ReplicatedUsing=OnRep_ShowTeamScores)
 	bool bShowTeamScores = false;
+	bool bShowSingleScore = false;
 	UFUNCTION()
 	void OnRep_ShowTeamScores();
 
 	FString GetInfoText(const TArray<class ABlasterPlayerState*>& Players);
 	FString GetTeamsInfoText(class ABlasterGameState* BlasterGameState);
+	FString GetSingleInfoText();
 
 private:
 	UPROPERTY()	

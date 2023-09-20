@@ -45,7 +45,7 @@ public:
 	UPROPERTY()
 	class UAnnouncement* Announcement;
 	void AddAnnouncement();
-	void AddElimAnnouncement(const FString& Attacker, const FString& Victim, int32 EnemiesLeft = 0);//大于0则为单人模式
+	void AddElimAnnouncement(const FString& Attacker, const FString& Victim, int32 EnemiesLeft = -1);//大于-1则为单人模式
 
 protected:
 	virtual void BeginPlay() override;

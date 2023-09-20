@@ -8,6 +8,11 @@
 #include "Kismet/GameplayStatics.h"
 #include "Blaster//AISpawnPoint.h"
 
+ASinglePlayerGameMode::ASinglePlayerGameMode()
+{
+	bSingleMode = true;
+}
+
 void ASinglePlayerGameMode::PlayerEliminated(ABlasterCharacter* EliminatedPlayer, ABlasterPlayerController* VictimController, ABlasterPlayerController* AttackerController)
 {
 	ABlasterPlayerState* AttackersPlayerState = AttackerController ? Cast<ABlasterPlayerState>(AttackerController->PlayerState) : nullptr;
@@ -40,7 +45,15 @@ void ASinglePlayerGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	TArray<AActor*> OutActors;
-	TSubclassOf<AAISpawnPoint>Class = AAISpawnPoint::StaticClass();
-	UGameplayStatics::GetAllActorsOfClass(this,Class,OutActors);
-	CurrentEnemies = OutActors.Num();
+	UGameplayStatics::GetAllActorsOfClass(this, AAISpawnPoint::StaticClass(),OutActors);
+	int32 Num = 0;
+	for (AActor* A:OutActors)
+	{
+		AAISpawnPoint* SpawnPoint = Cast<AAISpawnPoint>(A);
+		if (SpawnPoint && SpawnPoint->Active)
+		{
+			Num++;
+		}
+	}
+	CurrentEnemies = Num;
 }
