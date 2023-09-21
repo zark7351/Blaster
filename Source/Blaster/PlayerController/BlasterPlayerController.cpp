@@ -17,8 +17,24 @@
 #include "Blaster/PlayerState/BlasterPlayerState.h"
 #include "Components/Image.h"
 #include "Blaster/HUD/ReturnToMainMenu.h"
-#include "Blaster/BlasterTypes/Announcement.h"
+//#include "Blaster/BlasterTypes/Announcement.h"
 #include "Blaster//GameMode/SinglePlayerGameMode.h"
+
+#define LOCTEXT_NAMESPACE "Announcement"
+
+const FText NewMatchStartsIn = LOCTEXT("NewMatchStartsIn", "New match starts in:");
+const FText ThereIsNoWinner = LOCTEXT("ThereIsNoWinner", "There is no winner.");
+const FText YouAreTheWinner = LOCTEXT("YouAreTheWinner", "You are the winner!");
+const FText PlayerTiedForTheWin = LOCTEXT("PlayerTiedForTheWin", "Players tied for the win:");
+
+const FText TeamsTiedForTheWin = LOCTEXT("TeamsTiedForTheWin", "Teams tied for the win:");
+const FText RedTeam = LOCTEXT("RedTeam", "Red team");
+const FText BlueTeam = LOCTEXT("BlueTeam", "Blue team");
+const FText RedTeamWins = LOCTEXT("RedTeamWins", "Red team wins");
+const FText BlueTeamWins = LOCTEXT("BlueTeamWins", "Blue team wins");
+
+const FText YouWin = LOCTEXT("YouWin", "You win!");
+const FText YouLose = LOCTEXT("YouLose", "You lose!");
 
 void ABlasterPlayerController::BroadcastElim(APlayerState* Attacker, APlayerState* Victim)
 {
@@ -616,7 +632,7 @@ void ABlasterPlayerController::HandleCooldown()
 			if (bHUDValid)
 			{
 				BlasterHUD->Announcement->SetVisibility(ESlateVisibility::Visible);
-				FString AnnouncementText = Announcement::NewMatchStartsIn;
+				FString AnnouncementText = NewMatchStartsIn.ToString();
 				BlasterHUD->Announcement->AnnouncementText->SetText(FText::FromString(AnnouncementText));
 
 				ABlasterGameState* BlasterGameState =Cast<ABlasterGameState>(UGameplayStatics::GetGameState(this));
@@ -648,12 +664,12 @@ FString ABlasterPlayerController::GetInfoText(const TArray<class ABlasterPlayerS
 	FString InfoTextString;
 	if (Players.Num() == 0)
 	{
-		InfoTextString = Announcement::ThereIsNoWinner;
+		InfoTextString = ThereIsNoWinner.ToString();
 	}
 
 	else if (Players.Num() == 1 && Players[0] == BlasterPlayerState)
 	{
-		InfoTextString = Announcement::YouAreTheWinner;
+		InfoTextString = YouAreTheWinner.ToString();
 	}
 	else  if (Players.Num() == 1)
 	{
@@ -661,7 +677,7 @@ FString ABlasterPlayerController::GetInfoText(const TArray<class ABlasterPlayerS
 	}
 	else if (Players.Num() > 1)
 	{
-		InfoTextString = Announcement::PlayerTiedForTheWin;
+		InfoTextString = PlayerTiedForTheWin.ToString();
 		InfoTextString.Append(FString("\n"));
 		for (auto TiedPlayer : Players)
 		{
@@ -680,30 +696,30 @@ FString ABlasterPlayerController::GetTeamsInfoText(ABlasterGameState* BlasterGam
 
 	if (RedTeamScore == 0 && BlueTeamScore == 0)
 	{
-		InfoTextString = Announcement::ThereIsNoWinner;
+		InfoTextString = ThereIsNoWinner.ToString();
 	}
 	else if(RedTeamScore == BlueTeamScore)
 	{
-		InfoTextString = Announcement::TeamsTiedForTheWin;
+		InfoTextString = TeamsTiedForTheWin.ToString();
 		InfoTextString.Append(FString("\n"));
-		InfoTextString.Append(Announcement::RedTeam);
+		InfoTextString.Append(RedTeam.ToString());
 		InfoTextString.Append(TEXT("\n"));
-		InfoTextString.Append(Announcement::BlueTeam);
+		InfoTextString.Append(BlueTeam.ToString());
 		InfoTextString.Append(TEXT("\n"));
 	}
 	else if(RedTeamScore > BlueTeamScore)
 	{
-		InfoTextString = Announcement::RedTeamWins;
+		InfoTextString = RedTeamWins.ToString();
 		InfoTextString.Append(TEXT("\n"));
-		InfoTextString.Append(FString::Printf(TEXT("%s£º %d\n"),*Announcement::RedTeam,RedTeamScore));
-		InfoTextString.Append(FString::Printf(TEXT("%s£º %d\n"), *Announcement::BlueTeam, BlueTeamScore));
+		InfoTextString.Append(FString::Printf(TEXT("%s£º %d\n"),*(RedTeam.ToString()), RedTeamScore));
+		InfoTextString.Append(FString::Printf(TEXT("%s£º %d\n"), *(BlueTeam.ToString()), BlueTeamScore));
 	}
 	else if (RedTeamScore < BlueTeamScore)
 	{
-		InfoTextString = Announcement::BlueTeamWins;
+		InfoTextString = BlueTeamWins.ToString();
 		InfoTextString.Append(TEXT("\n"));
-		InfoTextString.Append(FString::Printf(TEXT("%s£º %d\n"), *Announcement::BlueTeam, BlueTeamScore));
-		InfoTextString.Append(FString::Printf(TEXT("%s£º %d\n"), *Announcement::RedTeam, RedTeamScore));
+		InfoTextString.Append(FString::Printf(TEXT("%s£º %d\n"), *(BlueTeam.ToString()), BlueTeamScore));
+		InfoTextString.Append(FString::Printf(TEXT("%s£º %d\n"), *(RedTeam.ToString()), RedTeamScore));
 	}
 	return InfoTextString;
 }
@@ -716,12 +732,14 @@ FString ABlasterPlayerController::GetSingleInfoText()
 	{
 		if (GameMode->GetCurrentEnemies()<=0)
 		{
-			InfoTextString = Announcement::YouWin;
+			InfoTextString = YouWin.ToString();
 		}
 		else
 		{
-			InfoTextString = Announcement::YouLose;
+			InfoTextString = YouLose.ToString();
 		}
 	}
 	return InfoTextString;
 }
+
+#undef LOCTEXT_NAMESPACE
