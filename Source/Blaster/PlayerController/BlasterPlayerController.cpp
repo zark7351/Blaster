@@ -742,4 +742,4 @@ FString ABlasterPlayerController::GetSingleInfoText()
 	return InfoTextString;
 }
 
-#undef LOCTEXT_NAMESPACE
+ 
