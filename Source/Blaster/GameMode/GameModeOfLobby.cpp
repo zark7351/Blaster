@@ -16,7 +16,7 @@ void AGameModeOfLobby::PostLogin(APlayerController* NewPlayer)
 		UMultiplayerSessionsSubsystem* SubSystem = GameInstance->GetSubsystem<UMultiplayerSessionsSubsystem>();
 		check(SubSystem);
 
-		if (NumbeOfPlayers == 2)
+		if (NumbeOfPlayers == 6)
 		{
 			UWorld* World = GetWorld();
 			if (World)
